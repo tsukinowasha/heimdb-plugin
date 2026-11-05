@@ -1,0 +1,175 @@
+.heimdb .heimdb-meta,
+.heimdb .heimdb-breadcrumbs {
+	color: #646970;
+	margin: 4px 0 12px;
+}
+
+.heimdb .heimdb-table td,
+.heimdb .heimdb-table th {
+	vertical-align: middle;
+}
+
+.heimdb .heimdb-table .num {
+	text-align: right;
+	width: 4em;
+}
+
+.heimdb .heimdb-table code {
+	background: none;
+	padding: 0;
+}
+
+.heimdb .heimdb-actions {
+	text-align: right;
+	white-space: nowrap;
+}
+
+.heimdb .heimdb-columns {
+	display: flex;
+	gap: 20px;
+	align-items: flex-start;
+}
+
+.heimdb .heimdb-main {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.heimdb .heimdb-side {
+	flex: 0 0 340px;
+}
+
+@media (max-width: 1100px) {
+	.heimdb .heimdb-columns {
+		display: block;
+	}
+}
+
+.heimdb .heimdb-box {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	padding: 4px 16px 8px;
+	margin: 16px 0;
+}
+
+.heimdb .heimdb-box h2 {
+	font-size: 14px;
+}
+
+.heimdb .heimdb-danger {
+	border-left: 4px solid #d63638;
+}
+
+.heimdb .heimdb-resolve {
+	border-left: 4px solid #dba617;
+}
+
+.heimdb .heimdb-warn {
+	color: #b32d2e;
+	font-weight: 600;
+}
+
+.heimdb .heimdb-inline-forms form,
+.heimdb form.heimdb-inline {
+	display: inline-block;
+	margin: 0 4px 4px 0;
+}
+
+.heimdb .heimdb-code {
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	padding: 8px 12px;
+	overflow-x: auto;
+}
+
+.heimdb .heimdb-notice .heimdb-table {
+	margin: 8px 0;
+}
+
+.heimdb .heimdb-badge {
+	display: inline-block;
+	padding: 1px 8px;
+	border-radius: 10px;
+	font-size: 12px;
+	line-height: 18px;
+	background: #f0f0f1;
+	color: #3c434a;
+	white-space: nowrap;
+}
+
+.heimdb .heimdb-badge-main { background: #2271b1; color: #fff; }
+.heimdb .heimdb-badge-ok,
+.heimdb .heimdb-badge-insert { background: #edfaef; color: #00691c; }
+.heimdb .heimdb-badge-update,
+.heimdb .heimdb-badge-change { background: #f0f6fc; color: #0a4b78; }
+.heimdb .heimdb-badge-delete { background: #fcf0f1; color: #8a2424; }
+.heimdb .heimdb-badge-conflict { background: #d63638; color: #fff; }
+.heimdb .heimdb-badge-warning { background: #fcf9e8; color: #6e5a00; }
+.heimdb .heimdb-badge-branch { background: #e6f4ea; color: #00691c; }
+.heimdb .heimdb-badge-parent { background: #f0f6fc; color: #0a4b78; }
+.heimdb .heimdb-badge-stale { background: #fcf9e8; color: #6e5a00; }
+.heimdb .heimdb-badge-muted,
+.heimdb .heimdb-badge-skip { color: #787c82; }
+
+.heimdb tr.heimdb-has-conflict > td:first-child,
+.heimdb tr.heimdb-watch > td:first-child {
+	box-shadow: inset 4px 0 0 #d63638;
+}
+
+.heimdb .heimdb-compare {
+	table-layout: fixed;
+}
+
+.heimdb .heimdb-compare th:first-child {
+	width: 14em;
+}
+
+.heimdb .heimdb-compare tr.heimdb-differs td,
+.heimdb .heimdb-compare tr.heimdb-differs th {
+	background: #fcf9e8;
+}
+
+.heimdb .heimdb-compare tr.heimdb-conflict-col td,
+.heimdb .heimdb-compare tr.heimdb-conflict-col th {
+	background: #fcf0f1;
+}
+
+.heimdb .heimdb-value {
+	max-height: 12em;
+	overflow: auto;
+	white-space: pre-wrap;
+	word-break: break-word;
+	font-family: Consolas, Monaco, monospace;
+	font-size: 12px;
+}
+
+.heimdb .heimdb-null,
+.heimdb .heimdb-missing {
+	color: #a7aaad;
+	font-style: italic;
+}
+
+.heimdb .heimdb-time-form label {
+	margin-right: 12px;
+}
+
+.heimdb .heimdb-table-choices label {
+	display: inline-block;
+	margin: 0 12px 4px 0;
+}
+
+.heimdb .heimdb-status th {
+	width: 22em;
+}
+
+.heimdb input.heimdb-short {
+	width: 6em;
+}
+
+/* 解決を記録したユーザーと時刻 */
+.heimdb .heimdb-resolved-by {
+	display: block;
+	margin-top: 2px;
+	color: #646970;
+	font-size: 12px;
+}

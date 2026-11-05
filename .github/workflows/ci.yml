@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # 構文と、WordPress の要らない部分の単体テスト。要件の 8.2、推奨の 8.4、その次の版で。
+  unit:
+    name: Lint and unit tests (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["8.2", "8.4", "8.5"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          ini-values: error_reporting=E_ALL, display_errors=On
+      - name: Lint
+        run: |
+          status=0
+          for f in $(git ls-files '*.php'); do
+            php -l "$f" >/dev/null || status=1
+          done
+          exit $status
+      - name: Unit tests
+        run: php tests/run.php
+
+  # HeimDB と WordPress を Docker で立て、CLI と管理画面を通しで確かめる。
+  e2e:
+    name: End-to-end (HeimDB ${{ matrix.heimdb }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        heimdb: ["0.2.12", "0.2.14", "0.2.15", "0.2.16", "0.2.24", "0.2.33"]
+    env:
+      HEIMDB_VERSION: ${{ matrix.heimdb }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          coverage: none
+      - name: Start HeimDB and WordPress
+        run: |
+          docker compose -f dev/compose.yaml pull --quiet
+          docker compose -f dev/compose.yaml --profile cli pull --quiet cli
+          docker compose -f dev/compose.yaml up -d
+      - name: Run tests/e2e.sh
+        run: tests/e2e.sh
+      - name: Logs
+        if: failure()
+        run: |
+          docker compose -f dev/compose.yaml logs --no-color
+          docker compose -f dev/compose.yaml exec -T wordpress sh -c 'cat wp-content/debug.log 2>/dev/null || true'
+      - name: Stop
+        if: always()
+        run: docker compose -f dev/compose.yaml --profile staging down -v
+
+  # 文言に訳が追いついているか、.mo と .l10n.php を作り直し忘れていないか。
+  i18n:
+    name: Translations
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check languages/
+        run: docker run --rm -v "$PWD:/app:ro" wordpress:cli-php8.4 sh /app/tests/i18n-check.sh

@@ -1,0 +1,1247 @@
+# Copyright (C) 2026 Tsukinowa Inc.
+# This file is distributed under the Apache-2.0.
+msgid ""
+msgstr ""
+"Project-Id-Version: HeimDB 0.2.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/heimdb\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-01T14:07:54+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: heimdb\n"
+
+#. Plugin Name of the plugin
+#: heimdb.php
+#: includes/class-admin.php:1392
+msgid "HeimDB"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: heimdb.php
+msgid "https://github.com/tsukinowasha/heimdb"
+msgstr ""
+
+#. Description of the plugin
+#: heimdb.php
+msgid "Branches, diffs, conflict resolution, merges, time travel and restores of HeimDB, from wp-admin and wp-cli."
+msgstr ""
+
+#. Author of the plugin
+#: heimdb.php
+msgid "Tsukinowa Inc."
+msgstr ""
+
+#. translators: %s: branch name
+#: heimdb.php:54
+#, php-format
+msgid "HeimDB branch: %s"
+msgstr ""
+
+#: includes/class-admin.php:35
+#: includes/class-admin.php:372
+#: includes/class-admin.php:1392
+msgid "Branches"
+msgstr ""
+
+#: includes/class-admin.php:36
+#: includes/class-admin.php:407
+#: includes/class-admin.php:455
+#: includes/class-admin.php:869
+#: includes/class-admin.php:1011
+msgid "Time travel"
+msgstr ""
+
+#: includes/class-admin.php:37
+#: includes/class-admin.php:604
+#: includes/class-admin.php:1521
+msgid "Status"
+msgstr ""
+
+#: includes/class-admin.php:54
+msgid "You are not allowed to operate HeimDB."
+msgstr ""
+
+#: includes/class-admin.php:70
+msgid "A branch name may contain only lowercase letters, digits, \"_\" and \"-\"."
+msgstr ""
+
+#. translators: 1: branch, 2: database name
+#: includes/class-admin.php:76
+#, php-format
+msgid "Created branch %1$s. Point a WordPress site at the database %2$s to work on it."
+msgstr ""
+
+#. translators: %s: error message
+#: includes/class-admin.php:84
+#, php-format
+msgid "But the limits were not set: %s"
+msgstr ""
+
+#. translators: %s: branch
+#: includes/class-admin.php:96
+#, php-format
+msgid "Deleted branch %s."
+msgstr ""
+
+#. translators: %s: branch
+#: includes/class-admin.php:104
+#, php-format
+msgid "Updated the limits of %s."
+msgstr ""
+
+#. translators: 1: database user, 2: branch
+#: includes/class-admin.php:114
+#, php-format
+msgid "Created the database user %1$s. It can use branch %2$s (and nothing else)."
+msgstr ""
+
+#. translators: 1: database user, 2: branch
+#: includes/class-admin.php:116
+#, php-format
+msgid "The existing database user %1$s can now also use branch %2$s. Its password and max connections were changed only if you entered them."
+msgstr ""
+
+#. translators: %s: generated password
+#: includes/class-admin.php:119
+#, php-format
+msgid "Password: %s (shown only once)"
+msgstr ""
+
+#. translators: 1: table, 2: row id, 3: side
+#: includes/class-admin.php:129
+#, php-format
+msgid "Recorded the resolution: %1$s %2$s → %3$s."
+msgstr ""
+
+#. translators: %d: number of conflicts
+#: includes/class-admin.php:133
+#, php-format
+msgid "%d conflict can keep only the parent value and is still unresolved. Resolve it to the parent."
+msgid_plural "%d conflicts can keep only the parent value and are still unresolved. Resolve them to the parent."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-admin.php:145
+msgid "Dry run: the merge would succeed. Nothing was written."
+msgstr ""
+
+#. translators: 1: branch, 2: parent branch
+#: includes/class-admin.php:151
+#, php-format
+msgid "Merged %1$s into %2$s."
+msgstr ""
+
+#. translators: 1: branch, 2: parent branch
+#: includes/class-admin.php:151
+msgid "Nothing to merge."
+msgstr ""
+
+#: includes/class-admin.php:165
+msgid "Dry run: the sync would succeed. Nothing was written."
+msgstr ""
+
+#: includes/class-admin.php:165
+msgid "Dry run: nothing to pull in from the parent."
+msgstr ""
+
+#. translators: 1: parent branch, 2: branch
+#: includes/class-admin.php:172
+#, php-format
+msgid "Pulled the changes of %1$s into %2$s."
+msgstr ""
+
+#. translators: 1: parent branch, 2: branch
+#: includes/class-admin.php:172
+msgid "Nothing to pull in from the parent."
+msgstr ""
+
+#. translators: 1: branch, 2: time
+#: includes/class-admin.php:186
+#, php-format
+msgid "Restored %1$s to %2$s."
+msgstr ""
+
+#. translators: %s: tables
+#: includes/class-admin.php:190
+#, php-format
+msgid "Some rows also changed in a paired table that was not restored (see Detail). To restore them together, restore %s."
+msgstr ""
+
+#: includes/class-admin.php:203
+msgid "That operation cannot be undone from here."
+msgstr ""
+
+#. translators: 1: branch, 2: time
+#: includes/class-admin.php:209
+#, php-format
+msgid "Undone: %1$s is back to %2$s."
+msgstr ""
+
+#. translators: %s: table name pattern
+#: includes/class-admin.php:219
+#, php-format
+msgid "Tables matching %s are now excluded from merges."
+msgstr ""
+
+#. translators: %s: table name pattern
+#: includes/class-admin.php:226
+#, php-format
+msgid "Tables matching %s are merged again."
+msgstr ""
+
+#. translators: 1: path, 2: size
+#: includes/class-admin.php:232
+#, php-format
+msgid "Backed up to %1$s (%2$s)."
+msgstr ""
+
+#. translators: 1: time, 2: number
+#: includes/class-admin.php:238
+#, php-format
+msgid "GC done. Data before %1$s can no longer be read; removed %2$s versions."
+msgstr ""
+
+#: includes/class-admin.php:288
+msgid "Choose the tables to restore."
+msgstr ""
+
+#: includes/class-admin.php:300
+msgid "Resolve the conflicts below first."
+msgstr ""
+
+#: includes/class-admin.php:301
+msgid "Run the WordPress database upgrade on both sides before merging."
+msgstr ""
+
+#: includes/class-admin.php:302
+msgid "Tables with two WordPress table prefixes were found. Drop or rename the unused copy (e.g. a WP Staging copy)."
+msgstr ""
+
+#: includes/class-admin.php:303
+msgid "Finish the open transaction first."
+msgstr ""
+
+#: includes/class-admin.php:304
+msgid "The parent changed during the merge. Try again."
+msgstr ""
+
+#: includes/class-admin.php:305
+msgid "This HeimDB is a read-only replica. Connect to the primary."
+msgstr ""
+
+#: includes/class-admin.php:306
+msgid "WordPress core tables cannot be excluded from merges."
+msgstr ""
+
+#: includes/class-admin.php:315
+msgid "Both sides changed the same rows. Choose which side the conflicts keep and pull in again, or make those rows on the branch equal to the parent."
+msgstr ""
+
+#: includes/class-admin.php:316
+msgid "Run the WordPress database upgrade on both sides before pulling in."
+msgstr ""
+
+#: includes/class-admin.php:317
+msgid "A table definition differs between the branch and the parent. Run the same plugin update (or ALTER TABLE) on the branch first."
+msgstr ""
+
+#: includes/class-admin.php:322
+msgid "From a branch site, you can go back only to when the branch was created."
+msgstr ""
+
+#: includes/class-admin.php:324
+msgid "From a branch site, resolve the conflicts one row at a time."
+msgstr ""
+
+#: includes/class-admin.php:326
+msgid "Rows added on both sides with the same ID can only take the parent. Pull in with the parent kept for conflicts."
+msgstr ""
+
+#: includes/class-admin.php:328
+msgid "Some conflicts can keep only the parent value. Resolve them to the parent."
+msgstr ""
+
+#: includes/class-admin.php:332
+msgid "HeimDB procedures need an administrator. Set HEIMDB_ADMIN_USER and HEIMDB_ADMIN_PASSWORD in wp-config.php."
+msgstr ""
+
+#: includes/class-admin.php:377
+#: includes/class-admin.php:683
+#: includes/class-admin.php:901
+#: includes/class-admin.php:1313
+msgid "Branch"
+msgstr ""
+
+#: includes/class-admin.php:378
+#: includes/class-admin.php:424
+#: includes/class-admin.php:684
+#: includes/class-admin.php:1314
+msgid "Parent"
+msgstr ""
+
+#: includes/class-admin.php:379
+msgid "Forked at"
+msgstr ""
+
+#: includes/class-admin.php:380
+msgid "Database"
+msgstr ""
+
+#: includes/class-admin.php:381
+#: includes/class-admin.php:435
+#: includes/class-admin.php:566
+msgid "Size"
+msgstr ""
+
+#: includes/class-admin.php:382
+#: includes/class-admin.php:433
+#: includes/class-admin.php:563
+msgid "Limits"
+msgstr ""
+
+#: includes/class-admin.php:390
+msgid "production"
+msgstr ""
+
+#: includes/class-admin.php:395
+msgid "this site"
+msgstr ""
+
+#: includes/class-admin.php:405
+msgid "Diff & merge"
+msgstr ""
+
+#: includes/class-admin.php:414
+msgid "Create a branch"
+msgstr ""
+
+#: includes/class-admin.php:415
+msgid "A branch is a writable copy of its parent, made instantly without copying data. It appears as the database <production>@<name>."
+msgstr ""
+
+#: includes/class-admin.php:419
+#: includes/class-admin.php:1041
+msgid "Name"
+msgstr ""
+
+#: includes/class-admin.php:421
+msgid "Lowercase letters, digits, \"_\" and \"-\"."
+msgstr ""
+
+#: includes/class-admin.php:428
+msgid "From the point in time"
+msgstr ""
+
+#: includes/class-admin.php:430
+msgid "Leave empty to branch from now. A past time must be within the retention period."
+msgstr ""
+
+#: includes/class-admin.php:436
+#: includes/class-admin.php:567
+msgid "Statement time"
+msgstr ""
+
+#: includes/class-admin.php:437
+msgid "Optional. Keeps a staging site from using up the disk and time of production."
+msgstr ""
+
+#: includes/class-admin.php:441
+#: includes/class-admin.php:1042
+msgid "Create branch"
+msgstr ""
+
+#. translators: %s: branch
+#: includes/class-admin.php:454
+#, php-format
+msgid "%s has no parent to merge into."
+msgstr ""
+
+#. translators: 1: branch, 2: parent
+#: includes/class-admin.php:469
+#, php-format
+msgid "%1$s → %2$s"
+msgstr ""
+
+#. translators: 1: database, 2: database user
+#: includes/class-admin.php:473
+#, php-format
+msgid "Database %1$s · connected as the branch user %2$s"
+msgstr ""
+
+#. translators: 1: time, 2: database, 3: size
+#: includes/class-admin.php:476
+#, php-format
+msgid "Forked at %1$s · database %2$s · %3$s"
+msgstr ""
+
+#: includes/class-admin.php:486
+msgid "Changes to merge"
+msgstr ""
+
+#: includes/class-admin.php:488
+msgid "Nothing to merge: the branch has no changes against its parent."
+msgstr ""
+
+#: includes/class-admin.php:494
+msgid "Hide unchanged tables"
+msgstr ""
+
+#. translators: %d: number of tables
+#: includes/class-admin.php:496
+#, php-format
+msgid "Show %d unchanged tables"
+msgstr ""
+
+#: includes/class-admin.php:500
+msgid "Show every row"
+msgstr ""
+
+#: includes/class-admin.php:506
+msgid "Merge"
+msgstr ""
+
+#. translators: %d: number of conflicts
+#: includes/class-admin.php:509
+#, php-format
+msgid "%d unresolved conflict. Decide which side to keep for each row before merging."
+msgid_plural "%d unresolved conflicts. Decide which side to keep for each row before merging."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-admin.php:510
+msgid "Review conflicts"
+msgstr ""
+
+#: includes/class-admin.php:513
+msgid "Keep the branch for all"
+msgstr ""
+
+#: includes/class-admin.php:514
+msgid "Keep the parent for all"
+msgstr ""
+
+#. translators: %d: number of conflicts
+#: includes/class-admin.php:519
+#, php-format
+msgid "%d conflict resolved."
+msgid_plural "%d conflicts resolved."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-admin.php:522
+msgid "An administrator merges from the production site. The resolutions recorded here are used by that merge, with who recorded them and when. If a value changes after you record a resolution, decide again."
+msgstr ""
+
+#: includes/class-admin.php:527
+msgid "The merge is a single commit; on failure nothing is written. Writes to the parent wait while it runs. Comments and users stay as they are on the parent."
+msgstr ""
+
+#: includes/class-admin.php:531
+#: includes/class-admin.php:558
+msgid "Dry run"
+msgstr ""
+
+#. translators: 1: branch, 2: parent
+#: includes/class-admin.php:532
+#, php-format
+msgid "Merge %1$s into %2$s?"
+msgstr ""
+
+#. translators: %s: parent
+#: includes/class-admin.php:535
+#, php-format
+msgid "Merge into %s"
+msgstr ""
+
+#. translators: %s: parent
+#: includes/class-admin.php:543
+#, php-format
+msgid "Pull in changes from %s"
+msgstr ""
+
+#. translators: %s: parent
+#: includes/class-admin.php:545
+#, php-format
+msgid "Brings the latest of %s into this branch in one commit, such as other branches merged while this one was in review. Changes on this branch that were not merged are kept. Comments and users are copied too; environment options (siteurl, home, ...) and tables excluded from merges are not. Files are not copied. Needs HeimDB 0.2.33 or later."
+msgstr ""
+
+#: includes/class-admin.php:547
+msgid "Pulling in clears the resolutions recorded on this branch. Decide the conflicts again before merging."
+msgstr ""
+
+#. translators: 1: parent, 2: branch
+#: includes/class-admin.php:550
+#, php-format
+msgid "Pull in the changes of %1$s into %2$s?"
+msgstr ""
+
+#: includes/class-admin.php:552
+msgid "When both sides changed the same column"
+msgstr ""
+
+#: includes/class-admin.php:553
+msgid "refuse (write nothing)"
+msgstr ""
+
+#: includes/class-admin.php:554
+msgid "keep the branch"
+msgstr ""
+
+#: includes/class-admin.php:555
+msgid "take the parent"
+msgstr ""
+
+#: includes/class-admin.php:559
+msgid "Pull in"
+msgstr ""
+
+#: includes/class-admin.php:568
+msgid "Empty means no limit."
+msgstr ""
+
+#: includes/class-admin.php:569
+msgid "Save limits"
+msgstr ""
+
+#: includes/class-admin.php:572
+msgid "Database user for the branch site"
+msgstr ""
+
+#. translators: %s: database name
+#: includes/class-admin.php:574
+#, php-format
+msgid "Creates (or updates) a user that can use only %s. Even if the staging site is compromised, production is out of reach."
+msgstr ""
+
+#: includes/class-admin.php:577
+msgid "User"
+msgstr ""
+
+#: includes/class-admin.php:578
+msgid "Password"
+msgstr ""
+
+#: includes/class-admin.php:578
+msgid "generate"
+msgstr ""
+
+#: includes/class-admin.php:579
+msgid "Max connections"
+msgstr ""
+
+#: includes/class-admin.php:580
+msgid "Empty: 20 for a new user; an existing user keeps its password and max connections."
+msgstr ""
+
+#: includes/class-admin.php:581
+msgid "Grant"
+msgstr ""
+
+#: includes/class-admin.php:586
+msgid "Delete"
+msgstr ""
+
+#: includes/class-admin.php:588
+msgid "This site runs on this branch, so it cannot be deleted from here. Delete it from the production site or with wp-cli there."
+msgstr ""
+
+#. translators: %s: branch
+#: includes/class-admin.php:591
+#, php-format
+msgid "Delete branch %s? Its changes that were not merged are lost."
+msgstr ""
+
+#: includes/class-admin.php:593
+msgid "Delete this branch"
+msgstr ""
+
+#: includes/class-admin.php:603
+#: includes/class-admin.php:681
+#: includes/class-admin.php:930
+#: includes/class-admin.php:1520
+msgid "Table"
+msgstr ""
+
+#: includes/class-admin.php:605
+msgid "Rows the merge inserts into the parent"
+msgstr ""
+
+#: includes/class-admin.php:606
+msgid "Rows the merge updates in the parent"
+msgstr ""
+
+#: includes/class-admin.php:607
+msgid "Rows the merge deletes from the parent"
+msgstr ""
+
+#: includes/class-admin.php:608
+#: includes/class-admin.php:1526
+msgid "Skipped"
+msgstr ""
+
+#: includes/class-admin.php:609
+#: includes/class-admin.php:1527
+msgid "Conflicts"
+msgstr ""
+
+#: includes/class-admin.php:610
+#: includes/class-admin.php:1528
+msgid "Resolved"
+msgstr ""
+
+#: includes/class-admin.php:611
+#: includes/class-admin.php:1529
+msgid "Warnings"
+msgstr ""
+
+#: includes/class-admin.php:612
+#: includes/class-admin.php:687
+#: includes/class-admin.php:930
+#: includes/class-admin.php:1530
+msgid "Detail"
+msgstr ""
+
+#. translators: 1: table, 2: branch, 3: parent
+#: includes/class-admin.php:651
+#: includes/class-admin.php:653
+msgid "All tables"
+msgstr ""
+
+#. translators: 1: table, 2: branch, 3: parent
+#: includes/class-admin.php:653
+#, php-format
+msgid "%1$s: %2$s → %3$s"
+msgstr ""
+
+#: includes/class-admin.php:658
+msgid "All"
+msgstr ""
+
+#. translators: %s: table
+#: includes/class-admin.php:668
+#, php-format
+msgid "Keep the branch for all conflicts in %s"
+msgstr ""
+
+#. translators: %s: table
+#: includes/class-admin.php:670
+#, php-format
+msgid "Keep the parent for all conflicts in %s"
+msgstr ""
+
+#: includes/class-admin.php:675
+msgid "No rows."
+msgstr ""
+
+#: includes/class-admin.php:682
+#: includes/class-admin.php:930
+msgid "Row"
+msgstr ""
+
+#: includes/class-admin.php:685
+msgid "Merge does"
+msgstr ""
+
+#: includes/class-admin.php:686
+#: includes/class-admin.php:930
+msgid "Columns"
+msgstr ""
+
+#: includes/class-admin.php:688
+msgid "Resolution"
+msgstr ""
+
+#. translators: %s: time from HeimDB
+#: includes/class-admin.php:736
+#, php-format
+msgid "Cannot read the fork time \"%s\"."
+msgstr ""
+
+#: includes/class-admin.php:756
+msgid "Merge does:"
+msgstr ""
+
+#: includes/class-admin.php:762
+msgid "Which value should the merge keep?"
+msgstr ""
+
+#: includes/class-admin.php:763
+msgid "Only the conflicting columns are decided here. Columns changed only on the branch are merged either way."
+msgstr ""
+
+#: includes/class-admin.php:769
+msgid "This row is no longer in the diff (it may have been merged or changed back)."
+msgstr ""
+
+#: includes/class-admin.php:775
+msgid "This table has no primary key, so its rows are named by a hidden row ID that SQL cannot look up. Only the current values of the conflicting columns are shown."
+msgstr ""
+
+#: includes/class-admin.php:776
+#: includes/class-admin.php:1023
+#: includes/class-client.php:609
+msgid "This table has no primary key, so its rows are named by a hidden row ID that SQL cannot look up. A single row cannot be shown."
+msgstr ""
+
+#: includes/class-admin.php:781
+msgid "This site connects as a branch user, which cannot read the parent. Of the parent, only the current values of the conflicting columns are shown."
+msgstr ""
+
+#. translators: %s: parent
+#. translators: %s: branch
+#: includes/class-admin.php:785
+#: includes/class-admin.php:798
+#: includes/class-admin.php:824
+#: includes/class-admin.php:836
+#: includes/class-admin.php:838
+#, php-format
+msgid "%s now"
+msgstr ""
+
+#. translators: 1: parent, 2: row id such as ID=4
+#: includes/class-admin.php:791
+#, php-format
+msgid "%1$s now (%2$s)"
+msgstr ""
+
+#. translators: 1: parent, 2: time
+#: includes/class-admin.php:795
+#, php-format
+msgid "%1$s at fork (%2$s)"
+msgstr ""
+
+#: includes/class-admin.php:818
+msgid "Conflicting columns"
+msgstr ""
+
+#: includes/class-admin.php:822
+msgid "Parent now"
+msgstr ""
+
+#: includes/class-admin.php:870
+msgid "HeimDB keeps every version of every row for the retention period. See what changed since a point in time, read a row as it was, restore the branch to that point (undoable), or branch off from it."
+msgstr ""
+
+#: includes/class-admin.php:892
+msgid "15 min ago"
+msgstr ""
+
+#: includes/class-admin.php:893
+msgid "1 hour ago"
+msgstr ""
+
+#: includes/class-admin.php:894
+msgid "1 day ago"
+msgstr ""
+
+#: includes/class-admin.php:895
+msgid "7 days ago"
+msgstr ""
+
+#: includes/class-admin.php:902
+msgid "Time"
+msgstr ""
+
+#: includes/class-admin.php:911
+msgid "Tables"
+msgstr ""
+
+#: includes/class-admin.php:912
+msgid "Comma separated. Empty means all."
+msgstr ""
+
+#: includes/class-admin.php:915
+msgid "Show changes since then"
+msgstr ""
+
+#: includes/class-admin.php:916
+msgid "Preview restoring to then"
+msgstr ""
+
+#. translators: 1: branch, 2: time
+#: includes/class-admin.php:925
+#, php-format
+msgid "Changes on %1$s since %2$s"
+msgstr ""
+
+#: includes/class-admin.php:927
+msgid "Nothing changed since then."
+msgstr ""
+
+#: includes/class-admin.php:930
+msgid "Changed at"
+msgstr ""
+
+#: includes/class-admin.php:930
+msgid "Change"
+msgstr ""
+
+#. translators: 1: branch, 2: time
+#: includes/class-admin.php:961
+#, php-format
+msgid "Restoring %1$s to %2$s would…"
+msgstr ""
+
+#: includes/class-admin.php:963
+msgid "Nothing to restore: the branch is already in that state."
+msgstr ""
+
+#. translators: %s: tables
+#: includes/class-admin.php:972
+#, php-format
+msgid "Some rows also changed in a paired table that would not be restored (see Detail). Restoring only one side leaves, for example, a post with its old title but new custom fields. Restore %s together?"
+msgstr ""
+
+#: includes/class-admin.php:973
+msgid "Preview restoring them together"
+msgstr ""
+
+#: includes/class-admin.php:977
+msgid "Comments and users (wp_comments, wp_commentmeta, wp_users, wp_usermeta) are kept as they are now, so comments posted and users added since then are not lost. Choose \"All tables\" to restore them too."
+msgstr ""
+
+#. translators: 1: branch, 2: time
+#: includes/class-admin.php:983
+#, php-format
+msgid "Restore %1$s to %2$s? You can undo it afterwards."
+msgstr ""
+
+#: includes/class-admin.php:986
+msgid "Everything except comments and users"
+msgstr ""
+
+#: includes/class-admin.php:987
+msgid "All tables (including comments and users)"
+msgstr ""
+
+#: includes/class-admin.php:988
+msgid "Only these tables:"
+msgstr ""
+
+#: includes/class-admin.php:995
+msgid "Restore"
+msgstr ""
+
+#. translators: %s: branch
+#: includes/class-admin.php:1018
+#, php-format
+msgid "Branch %s"
+msgstr ""
+
+#: includes/class-admin.php:1021
+msgid "Now"
+msgstr ""
+
+#. translators: 1: table, 2: time
+#: includes/class-admin.php:1028
+#, php-format
+msgid "To put back only this table, preview restoring %1$s to %2$s."
+msgstr ""
+
+#: includes/class-admin.php:1029
+msgid "Preview"
+msgstr ""
+
+#: includes/class-admin.php:1036
+msgid "Branch off from this point"
+msgstr ""
+
+#. translators: 1: branch, 2: time
+#: includes/class-admin.php:1038
+#, php-format
+msgid "Creates a new branch with %1$s as it was at %2$s, without changing %1$s. Useful to look around or to take data back by merging."
+msgstr ""
+
+#: includes/class-admin.php:1049
+msgid "HeimDB status"
+msgstr ""
+
+#: includes/class-admin.php:1067
+#: includes/class-admin.php:1087
+msgid "Tables excluded from merges"
+msgstr ""
+
+#: includes/class-admin.php:1069
+msgid "None yet."
+msgstr ""
+
+#: includes/class-admin.php:1070
+msgid "Changed by an administrator from the production site."
+msgstr ""
+
+#: includes/class-admin.php:1076
+msgid "Server"
+msgstr ""
+
+#: includes/class-admin.php:1088
+msgid "Rebuildable tables such as search indexes (e.g. wp_yoast_%). Merges leave them as they are on the parent."
+msgstr ""
+
+#: includes/class-admin.php:1095
+msgid "Remove"
+msgstr ""
+
+#: includes/class-admin.php:1100
+msgid "Exclude"
+msgstr ""
+
+#: includes/class-admin.php:1103
+msgid "Backup"
+msgstr ""
+
+#: includes/class-admin.php:1104
+msgid "A consistent online backup of all branches, history and users, written under the server's -backup-dir."
+msgstr ""
+
+#: includes/class-admin.php:1106
+msgid "Back up now"
+msgstr ""
+
+#: includes/class-admin.php:1109
+msgid "Garbage collection"
+msgstr ""
+
+#: includes/class-admin.php:1110
+msgid "Removes versions older than the retention period now (the server also does this hourly). Points before the boundary can no longer be read, restored or branched from."
+msgstr ""
+
+#: includes/class-admin.php:1111
+msgid "Remove old versions now?"
+msgstr ""
+
+#: includes/class-admin.php:1112
+msgid "Run GC"
+msgstr ""
+
+#. translators: 1: user, 2: host, 3: branch, 4: database
+#: includes/class-admin.php:1121
+#, php-format
+msgid "Procedures run as %1$s@%2$s. This site uses branch %3$s (database %4$s)."
+msgstr ""
+
+#: includes/class-admin.php:1124
+msgid "The user has access to this branch only, so the merge and branch management are done from the production site."
+msgstr ""
+
+#: includes/class-admin.php:1133
+msgid "Setup"
+msgstr ""
+
+#: includes/class-admin.php:1135
+msgid "On a staging site, keep connecting with the user of the branch, and start HeimDB (0.2.15 or later) with the flag below. The user needs the EXECUTE privilege on the branch database, which GRANT ALL includes."
+msgstr ""
+
+#: includes/class-admin.php:1136
+msgid "or the environment variable HEIMDB_BRANCH_PROCEDURES=1"
+msgstr ""
+
+#: includes/class-admin.php:1137
+msgid "The diff then also shows values changed on the parent (production). Do not use the flag if branches separate different tenants."
+msgstr ""
+
+#: includes/class-admin.php:1140
+msgid "HeimDB procedures can be called only by an administrator (SUPER). WordPress itself should keep connecting with the site user, so give this plugin the administrator separately in wp-config.php:"
+msgstr ""
+
+#: includes/class-admin.php:1141
+msgid "defaults to DB_HOST"
+msgstr ""
+
+#: includes/class-admin.php:1142
+msgid "Anyone who can run PHP on this site can read these credentials. Define them only on the site you manage branches from (usually production), never on a staging site."
+msgstr ""
+
+#. translators: %s: branch
+#: includes/class-admin.php:1163
+#, php-format
+msgid "This site is running on branch %s, not production."
+msgstr ""
+
+#: includes/class-admin.php:1201
+msgid "Undo restores the tables to just before the operation. Anything written to those tables after it is lost too. To undo later, restore to that time from Time travel."
+msgstr ""
+
+#: includes/class-admin.php:1258
+msgid "The row does not exist in any of these versions."
+msgstr ""
+
+#: includes/class-admin.php:1264
+msgid "Column"
+msgstr ""
+
+#: includes/class-admin.php:1276
+msgid "(no row)"
+msgstr ""
+
+#: includes/class-admin.php:1309
+msgid "Keep the branch value"
+msgstr ""
+
+#: includes/class-admin.php:1310
+msgid "Keep the parent value"
+msgstr ""
+
+#: includes/class-admin.php:1325
+msgid "Undecide"
+msgstr ""
+
+#. translators: %s: reason from HeimDB
+#: includes/class-admin.php:1329
+#, php-format
+msgid "Only the parent value can be kept: %s."
+msgstr ""
+
+#. translators: 1: database user, 2: time
+#: includes/class-admin.php:1347
+#, php-format
+msgid "by %1$s, %2$s"
+msgstr ""
+
+#: includes/class-admin.php:1354
+msgid "parent"
+msgstr ""
+
+#. translators: 1: branch, 2: time, 3: tables
+#: includes/class-admin.php:1359
+#, php-format
+msgid "Restore %1$s to %2$s (%3$s)? Anything written to these tables since then is lost."
+msgstr ""
+
+#. translators: 1: branch, 2: time, 3: tables
+#: includes/class-admin.php:1359
+msgid "all but comments and users"
+msgstr ""
+
+#: includes/class-admin.php:1364
+msgid "Undo"
+msgstr ""
+
+#: includes/class-admin.php:1496
+msgid "changed"
+msgstr ""
+
+#: includes/class-admin.php:1497
+msgid "merged"
+msgstr ""
+
+#: includes/class-admin.php:1498
+msgid "synced"
+msgstr ""
+
+#: includes/class-admin.php:1499
+msgid "restore rows"
+msgstr ""
+
+#: includes/class-admin.php:1500
+msgid "restore definition"
+msgstr ""
+
+#: includes/class-admin.php:1501
+msgid "new table"
+msgstr ""
+
+#: includes/class-admin.php:1502
+msgid "schema differs"
+msgstr ""
+
+#: includes/class-admin.php:1503
+msgid "excluded"
+msgstr ""
+
+#: includes/class-admin.php:1504
+msgid "not excluded"
+msgstr ""
+
+#: includes/class-admin.php:1505
+msgid "unchanged"
+msgstr ""
+
+#: includes/class-admin.php:1506
+msgid "not restored"
+msgstr ""
+
+#: includes/class-admin.php:1507
+msgid "drop table"
+msgstr ""
+
+#: includes/class-admin.php:1508
+msgid "dropped on branch"
+msgstr ""
+
+#: includes/class-admin.php:1509
+msgid "dropped on parent"
+msgstr ""
+
+#: includes/class-admin.php:1510
+msgid "dropped on branch (not merged)"
+msgstr ""
+
+#: includes/class-admin.php:1522
+msgid "Action"
+msgstr ""
+
+#: includes/class-admin.php:1523
+msgid "Inserts"
+msgstr ""
+
+#: includes/class-admin.php:1524
+msgid "Updates"
+msgstr ""
+
+#: includes/class-admin.php:1525
+msgid "Deletes"
+msgstr ""
+
+#. translators: %s: side such as "keep branch"
+#: includes/class-admin.php:1542
+#, php-format
+msgid "resolved: %s"
+msgstr ""
+
+#: includes/class-admin.php:1553
+msgid "insert"
+msgstr ""
+
+#: includes/class-admin.php:1554
+msgid "update"
+msgstr ""
+
+#: includes/class-admin.php:1555
+msgid "delete"
+msgstr ""
+
+#: includes/class-admin.php:1556
+msgid "skip"
+msgstr ""
+
+#: includes/class-admin.php:1557
+msgid "conflict"
+msgstr ""
+
+#: includes/class-admin.php:1558
+msgid "warning"
+msgstr ""
+
+#: includes/class-admin.php:1559
+msgid "merge"
+msgstr ""
+
+#: includes/class-admin.php:1560
+msgid "restore"
+msgstr ""
+
+#: includes/class-admin.php:1561
+msgid "undo"
+msgstr ""
+
+#: includes/class-admin.php:1563
+msgid "table created"
+msgstr ""
+
+#: includes/class-admin.php:1564
+msgid "table dropped"
+msgstr ""
+
+#: includes/class-admin.php:1565
+msgid "table changed"
+msgstr ""
+
+#: includes/class-admin.php:1566
+msgid "not shown"
+msgstr ""
+
+#: includes/class-admin.php:1577
+msgid "keep branch"
+msgstr ""
+
+#: includes/class-admin.php:1578
+msgid "keep parent"
+msgstr ""
+
+#: includes/class-admin.php:1579
+msgid "undecided"
+msgstr ""
+
+#: includes/class-admin.php:1580
+msgid "stale — decide again"
+msgstr ""
+
+#. translators: %s: host name
+#: includes/class-client.php:92
+#, php-format
+msgid "Cannot read the HeimDB host \"%s\"."
+msgstr ""
+
+#. translators: 1: database user, 2: error message
+#: includes/class-client.php:127
+#, php-format
+msgid "Cannot connect to HeimDB as %1$s: %2$s"
+msgstr ""
+
+#. translators: %s: branch
+#: includes/class-client.php:217
+#, php-format
+msgid "This site connects as a branch user, so it can use only its own branch %s."
+msgstr ""
+
+#. translators: %s: branch name
+#: includes/class-client.php:232
+#, php-format
+msgid "Branch \"%s\" not found."
+msgstr ""
+
+#. translators: %s: branch
+#: includes/class-client.php:268
+#, php-format
+msgid "This site runs on branch %s, so it cannot delete it. Delete it from the production site or with wp-cli there."
+msgstr ""
+
+#: includes/class-client.php:359
+msgid "Choose branch or parent for the conflicts."
+msgstr ""
+
+#: includes/class-client.php:396
+msgid "Use the site user for main."
+msgstr ""
+
+#: includes/class-client.php:399
+msgid "Enter the database user."
+msgstr ""
+
+#. translators: %s: database user
+#: includes/class-client.php:403
+#, php-format
+msgid "%s is the user this site or this plugin connects with. Choose another user for the branch site."
+msgstr ""
+
+#. translators: 1: table, 2: database
+#: includes/class-client.php:646
+#, php-format
+msgid "Table %1$s not found in %2$s."
+msgstr ""
+
+#. translators: %s: row id such as ID=12
+#: includes/class-client.php:705
+#, php-format
+msgid "Cannot read the row id \"%s\"."
+msgstr ""
+
+#. translators: %s: database user
+#: includes/class-client.php:783
+#, php-format
+msgid "This site connects to HeimDB as %s, a user of this branch only. To see the diff, resolve conflicts and restore from this site, start HeimDB 0.2.15 or later with -branch-procedures. Merging and managing branches are done from the production site."
+msgstr ""
+
+#: includes/class-time.php:24
+msgid "Time is empty."
+msgstr ""
+
+#. translators: %s: the time the user typed
+#: includes/class-time.php:32
+#, php-format
+msgid "Cannot read the time \"%s\"."
+msgstr ""
