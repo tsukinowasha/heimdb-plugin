@@ -6,6 +6,8 @@
 #
 # ブランチ e2e を作り直して使う（本番の記事 1 のタイトルと、オプション blogdescription を書き換える）。
 set -euo pipefail
+# 確かめ（expect など）の外のコマンドが失敗して止まったときに、どこで止まったかを出す
+trap 'echo "FAIL stopped at line $LINENO (exit $?): $BASH_COMMAND"' ERR
 
 cd "$(dirname "$0")/.."
 WP_URL=${WP_URL:-http://localhost:8090}
@@ -325,7 +327,8 @@ if version_at_least 0.2.33; then
 	wp comment create --comment_post_ID="$main_post" --comment_content='E2E sync comment' >/dev/null
 	wp option update blogdescription 'E2E sync tagline' >/dev/null
 
-	out=$(wp heimdb sync "$SB" --dry-run --format=json | head -1) # 次の行は Success:
+	out=$(wp heimdb sync "$SB" --dry-run --format=json)
+	out=$(sed -n 1p <<<"$out") # 次の行は Success:（head で先にパイプを閉じると、wp が書けずに失敗しうる）
 	expect "sync dry run counts the parent's new post" "$(php -r 'foreach (json_decode($argv[1], true) as $r) if ($r["table_name"] === "wp_posts") echo $r["inserts"];' "$out")" 1
 	if wp_sync post get "$main_post" --field=ID >/dev/null 2>&1; then fail "sync dry run writes nothing"; else pass "sync dry run writes nothing"; fi
 
