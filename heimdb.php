@@ -3,7 +3,7 @@
  * Plugin Name:       HeimDB
  * Plugin URI:        https://github.com/tsukinowasha/heimdb
  * Description:       Branches, diffs, conflict resolution, merges, time travel and restores of HeimDB, from wp-admin and wp-cli.
- * Version:           0.2.4
+ * Version:           0.3.0
  * Requires at least: 6.0
  * Requires PHP:      8.2
  * Author:            Tsukinowa Inc.
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HEIMDB_PLUGIN_VERSION', '0.2.4' );
+define( 'HEIMDB_PLUGIN_VERSION', '0.3.0' );
 define( 'HEIMDB_PLUGIN_FILE', __FILE__ );
 define( 'HEIMDB_PLUGIN_DIR', __DIR__ );
 

@@ -32,7 +32,7 @@
 		}, 0 );
 	} );
 
-	// 時間旅行の「1 時間前」などのボタン。
+	// タイムトラベルの「1 時間前」などのボタン。
 	document.addEventListener( 'click', function ( e ) {
 		var preset = e.target.getAttribute && e.target.getAttribute( 'data-heimdb-preset' );
 		var input = document.getElementById( 'heimdb-time-at' );

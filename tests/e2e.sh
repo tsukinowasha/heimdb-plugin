@@ -10,7 +10,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 WP_URL=${WP_URL:-http://localhost:8090}
 BRANCH=e2e
-# HeimDB は版を SQL で返さないので、compose に渡す版（なければ compose の既定）で、版ごとの確かめを選ぶ
+# HeimDB はバージョンを SQL で返さないので、compose に渡すバージョン（なければ compose の既定）で、バージョンごとの確かめを選ぶ
 HEIMDB_VERSION=${HEIMDB_VERSION:-$(sed -n 's/.*HEIMDB_VERSION:-\([0-9.]*\)}.*/\1/p' dev/compose.yaml)}
 failures=0
 
@@ -82,7 +82,7 @@ expect "resolution recorded" "$(wp heimdb diff "$BRANCH" wp_posts --format=json 
 wp heimdb merge "$BRANCH" --dry-run >/dev/null
 expect "dry run writes nothing" "$(wp post get 1 --field=post_title)" "E2E from main"
 
-# HeimDB 0.2.13 から: 親にいない投稿者の投稿は、親の側でしか解決できない（ブランチの側は断られる）
+# HeimDB 0.2.13 から: 親にいない投稿者の投稿は、親の側でしか解決できない（ブランチの側は拒否される）
 if version_at_least 0.2.13; then
 	author=$(wp_branch user create e2e_author e2e_author@example.com --role=author --porcelain)
 	orphan=$(wp_branch post create --post_title='E2E orphan' --post_author="$author" --post_status=publish --porcelain)
@@ -100,7 +100,7 @@ expect "merge takes the branch title" "$(wp post get 1 --field=post_title)" "E2E
 expect "merge brings the new post" "$(wp post get "$new_post" --field=post_title)" "E2E new post"
 expect "merge keeps the main-only change" "$(wp option get blogdescription)" "E2E tagline on main"
 
-# ---------------------------------------------------------------- 取り消しと時間旅行
+# ---------------------------------------------------------------- 取り消しとタイムトラベル
 
 echo "--- undo and time travel"
 undo=$(grep '^To undo: wp heimdb restore ' <<<"$merge_out" | sed 's/^To undo: wp //')
@@ -354,6 +354,23 @@ if version_at_least 0.2.33; then
 
 	wp heimdb branch delete "$SB" --yes >/dev/null
 	wp post delete "$kept" "$both" "$main_post" --force >/dev/null
+fi
+
+# ---------------------------------------------------------------- 古いインデックスの作り直し（HeimDB 0.2.39 から）
+
+echo "--- rebuild indexes"
+if version_at_least 0.2.39; then
+	# 今の HeimDB で作った表のインデックスは、初めからエントリを持つので、作り直すものはない
+	case "$(dev/wp heimdb rebuild-indexes 2>&1)" in *"main has no indexes to rebuild"*) pass "rebuild-indexes on main" ;; *) fail "rebuild-indexes on main" ;; esac
+	expect "rebuild-indexes on a branch" "$(wp heimdb rebuild-indexes "$BRANCH" --format=count)" 0
+	html=$(curl_admin "page=heimdb-status")
+	nonce=$(form_field rebuild_indexes _wpnonce <<<"$html")
+	[ -n "$nonce" ] && pass "status page offers rebuilding indexes" || fail "status page offers rebuilding indexes"
+	admin_post -d op=rebuild_indexes -d "_wpnonce=$nonce" -d "branch=$BRANCH" --data-urlencode "redirect_to=$WP_URL/wp-admin/admin.php?page=heimdb-status" >/dev/null
+	html=$(curl_admin "page=heimdb-status")
+	if grep -q "$BRANCH has no indexes to rebuild\|$BRANCH には作り直すインデックスがありません" <<<"$html"; then pass "admin rebuild indexes notice"; else fail "admin rebuild indexes notice"; fi
+else
+	case "$(dev/wp heimdb rebuild-indexes 2>&1)" in *"needs HeimDB 0.2.39 or later"*) pass "rebuild-indexes explains the HeimDB version" ;; *) fail "rebuild-indexes explains the HeimDB version" ;; esac
 fi
 
 wp heimdb branch delete "$BRANCH" --yes >/dev/null

@@ -48,7 +48,7 @@ class Client {
 	}
 
 	/**
-	 * 管理者の接続の設定が wp-config.php にあるか。なければサイトのユーザーでつなぐ（ふつうは手続きを断られる）。
+	 * 管理者の接続の設定が wp-config.php にあるか。なければサイトのユーザーでつなぐ（ふつうは手続きを拒否される）。
 	 */
 	public static function has_admin_credentials(): bool {
 		return defined( 'HEIMDB_ADMIN_USER' );
@@ -348,10 +348,10 @@ class Client {
 	/**
 	 * 親の変更をブランチに取り込む（HeimDB 0.2.33 から）。ブランチのまだマージしていない変更は残る。
 	 *
-	 * 競合（両側が同じ列を変えた行など）があれば、側を渡さないと 51004 で断る。側はすべての競合に効く。
+	 * 競合（両側が同じ列を変えた行など）があれば、側を渡さないと 51004 で拒否する。側はすべての競合に効く。
 	 * 結果の形はマージと同じで、最後の `undo` の行が取り込みを戻す heimdb_restore。
 	 *
-	 * @param string|null $side 競合した列で採る側（`branch` か `parent`）。null なら競合を断る。
+	 * @param string|null $side 競合した列で採る側（`branch` か `parent`）。null なら競合を拒否する。
 	 * @return array<int,array<string,mixed>>
 	 */
 	public function branch_sync( string $name, ?string $side = null, bool $dry_run = false ): array {
@@ -386,7 +386,7 @@ class Client {
 	 * ブランチだけの権限のユーザー（ステージングのサイトがつなぐユーザー）を作り、ブランチのデータベースの
 	 * すべての権限を与える。ユーザーがいれば、パスワードと同時接続の上限は、渡したときだけ変える。
 	 *
-	 * このサイトの DB_USER と、手続きを呼ぶ管理者のユーザーは断る（パスワードや上限を変えると、このサイトが落ちる）。
+	 * このサイトの DB_USER と、手続きを呼ぶ管理者のユーザーは拒否する（パスワードや上限を変えると、このサイトが落ちる）。
 	 *
 	 * @param int|null $max_connections 同時接続の上限（0 なら上限なし）。null なら、作るときは 20、いるユーザーは変えない。
 	 * @return array{created:bool,password:?string} 作ったか、作ったパスワード。
@@ -452,7 +452,7 @@ class Client {
 		return array_column( $this->call( 'merge_include', array( $pattern ) ), 'pattern' );
 	}
 
-	// ---------------------------------------------------------------- 時間旅行と復元
+	// ---------------------------------------------------------------- タイムトラベルと復元
 
 	/**
 	 * @param string      $at     Time::to_db の形。
@@ -727,9 +727,33 @@ class Client {
 	}
 
 	/**
-	 * 管理者（SUPER 権限）でつないでいるか。ブランチの一覧を呼んで確かめる（断られたら管理者でない）。
+	 * 古い HeimDB（DECIMAL、FLOAT、DOUBLE、ENUM の列は 0.2.38 以前、SET と BIT の列は 0.2.40 以前）で作った、
+	 * エントリのないインデックスを作り直す（HeimDB 0.2.39 から）。手続きは接続中のデータベースのブランチに効くので、
+	 * 別のブランチなら、その間だけそのデータベースに切り替える。main は 0.2.42 から起動の後に裏で作り直される。
 	 *
-	 * @throws Error つなげないなど、断られた以外のエラー。
+	 * @param string|null $branch 省けばこのサイトのブランチ。
+	 * @return array<int,array<string,mixed>> 作り直したインデックス（`table`、`index`）。なければ空。
+	 */
+	public function rebuild_indexes( ?string $branch = null ): array {
+		$branch   = $branch ?? self::site_branch();
+		$database = (string) $this->branch( $branch )['database'];
+		$switch   = (string) DB_NAME !== $database;
+		try {
+			if ( $switch ) {
+				$this->query( 'USE ' . self::quote_identifier( $database ) );
+			}
+			return $this->call( 'rebuild_indexes' );
+		} finally {
+			if ( $switch ) {
+				$this->query( 'USE ' . self::quote_identifier( (string) DB_NAME ) );
+			}
+		}
+	}
+
+	/**
+	 * 管理者（SUPER 権限）でつないでいるか。ブランチの一覧を呼んで確かめる（拒否されたら管理者でない）。
+	 *
+	 * @throws Error つなげないなど、拒否された以外のエラー。
 	 */
 	public function is_admin(): bool {
 		if ( null === $this->admin ) {
@@ -755,7 +779,7 @@ class Client {
 	}
 
 	/**
-	 * 管理者だけの手続きを断られたエラーか。
+	 * 管理者だけの手続きを拒否されたエラーか。
 	 */
 	public static function is_denied( Error $e ): bool {
 		return false !== stripos( $e->getMessage(), 'command denied' );

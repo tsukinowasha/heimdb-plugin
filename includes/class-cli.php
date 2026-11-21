@@ -7,7 +7,7 @@ use WP_CLI\Utils;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * HeimDB のブランチ、差分、マージ、時間旅行と復元を操作する。
+ * HeimDB のブランチ、差分、マージ、タイムトラベルと復元を操作する。
  *
  * 手続きは wp-config.php の HEIMDB_ADMIN_USER（なければ DB_USER）で呼ぶ。時刻は、オフセットがなければサイトの
  * タイムゾーンで読む。`2 hours ago` のような書き方もできる。
@@ -130,7 +130,7 @@ class CLI {
 	/**
 	 * ブランチを親にマージする。
 	 *
-	 * 解決していない競合があれば、何も書かずに断る（`wp heimdb diff <branch> --conflicts` で見て、
+	 * 解決していない競合があれば、何も書かずに拒否する（`wp heimdb diff <branch> --conflicts` で見て、
 	 * `wp heimdb resolve` で解決する）。成功すれば、マージを戻すコマンドを出す。
 	 *
 	 * ## OPTIONS
@@ -186,7 +186,7 @@ class CLI {
 	 *
 	 * ほかのブランチを本番にマージした後などに、検証中のブランチへ本番の最新を入れる。ブランチのまだマージしていない
 	 * 変更は残る。コメントとユーザーも写し、環境ごとのオプション（siteurl、home など）とマージから外した表は写さない。
-	 * 両側で同じ列を変えた競合があれば、--side を渡さないと何も書かずに断る。ブランチで記録した解決は消える。
+	 * 両側で同じ列を変えた競合があれば、--side を渡さないと何も書かずに拒否する。ブランチで記録した解決は消える。
 	 * 成功すれば、取り込みを戻すコマンドを出す。
 	 *
 	 * ## OPTIONS
@@ -372,7 +372,7 @@ class CLI {
 	}
 
 	/**
-	 * テーブルの 1 行を、ある時点で読む（時間旅行）。
+	 * テーブルの 1 行を、ある時点で読む（タイムトラベル）。
 	 *
 	 * ## OPTIONS
 	 *
@@ -478,9 +478,9 @@ class CLI {
 	}
 
 	/**
-	 * 保持期間より古い版を今すぐ消す。
+	 * 保持期間より古いバージョンを今すぐ消す。
 	 *
-	 * 境界より前の時点は、時間旅行、復元、ブランチの作成に使えなくなる。
+	 * 境界より前の時点は、タイムトラベル、復元、ブランチの作成に使えなくなる。
 	 *
 	 * ## OPTIONS
 	 *
@@ -491,6 +491,45 @@ class CLI {
 		WP_CLI::confirm( 'Remove versions older than the retention period now?', $assoc );
 		$row = $this->run( fn( Client $c ) => $c->gc() );
 		WP_CLI::success( sprintf( 'Boundary %s; removed %s versions.', Time::display( $row['boundary'], true ), $row['versions'] ) );
+	}
+
+	/**
+	 * 古い HeimDB で作った、エントリのないインデックスを作り直す（HeimDB 0.2.39 から）。
+	 *
+	 * DECIMAL、FLOAT、DOUBLE、ENUM の列は 0.2.38 以前、SET と BIT の列は 0.2.40 以前に作ったインデックスが、引くたびに
+	 * 表の全件を読む。main のものは HeimDB 0.2.42 から起動の後に裏で作り直されるので、ふつうはブランチと、裏の処理が
+	 * 飛ばしたものに使う。作り直す間は、そのブランチへの書き込みが待つ。
+	 *
+	 * ## OPTIONS
+	 *
+	 * [<branch>]
+	 * : ブランチ。省けばこのサイトのブランチ。
+	 *
+	 * [--format=<format>]
+	 * : 出力の形。
+	 * ---
+	 * default: table
+	 * options:
+	 *   - table
+	 *   - json
+	 *   - csv
+	 *   - yaml
+	 *   - count
+	 * ---
+	 *
+	 * @subcommand rebuild-indexes
+	 */
+	public function rebuild_indexes( $args, $assoc ) {
+		$branch = $args[0] ?? Client::site_branch();
+		$rows   = $this->run( fn( Client $c ) => $c->rebuild_indexes( $branch ) );
+		if ( ! $rows && 'table' === ( $assoc['format'] ?? 'table' ) ) {
+			WP_CLI::success( sprintf( '%s has no indexes to rebuild.', $branch ) );
+			return;
+		}
+		self::output( $rows, $assoc );
+		if ( 'table' === ( $assoc['format'] ?? 'table' ) ) {
+			WP_CLI::success( sprintf( 'Rebuilt %d indexes on %s.', count( $rows ), $branch ) );
+		}
 	}
 
 	// ---------------------------------------------------------------- 共通
@@ -505,6 +544,9 @@ class CLI {
 			return $fn( Client::instance() );
 		} catch ( Error $e ) {
 			$hint = Client::is_denied( $e ) ? ' Only an administrator can do this: run it on the production site, or set HEIMDB_ADMIN_USER in wp-config.php.' : '';
+			if ( false !== strpos( $e->getMessage(), 'stored procedure "heimdb_rebuild_indexes" does not exist' ) ) {
+				$hint = ' Rebuilding indexes needs HeimDB 0.2.39 or later.';
+			}
 			WP_CLI::error( $e->getMessage() . ( $e->getCode() ? ' [' . $e->getCode() . ']' : '' ) . $hint );
 		}
 	}
@@ -633,7 +675,7 @@ class CLI_Branch {
 	}
 
 	/**
-	 * ブランチを消す。子のブランチがあれば断る。解決の記録も消える。
+	 * ブランチを消す。子のブランチがあれば拒否する。解決の記録も消える。
 	 *
 	 * ## OPTIONS
 	 *
@@ -684,7 +726,7 @@ class CLI_Branch {
 	 * : ユーザーの名前。
 	 *
 	 * [--password=<password>]
-	 * : パスワード。省けば作って出す（ユーザーがいれば変えない）。このサイトの DB_USER と管理者のユーザーは断る。
+	 * : パスワード。省けば作って出す（ユーザーがいれば変えない）。このサイトの DB_USER と管理者のユーザーは拒否する。
 	 *
 	 * [--host=<host>]
 	 * : つなぐ元。
@@ -730,7 +772,7 @@ class CLI_Exclude {
 	}
 
 	/**
-	 * パターンを足す（`LIKE` と同じく `%` と `_`）。WordPress 本体の表に当たるパターンは断られる。
+	 * パターンを足す（`LIKE` と同じく `%` と `_`）。WordPress 本体の表に当たるパターンは拒否される。
 	 *
 	 * ## OPTIONS
 	 *

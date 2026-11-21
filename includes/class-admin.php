@@ -7,14 +7,14 @@ defined( 'ABSPATH' ) || exit;
  * 管理画面（HeimDB のメニュー）。
  *
  * - ブランチ: 一覧と作成、差分（テーブルごと、行ごと、行の両側の比較）、競合の解決、マージ
- * - 時間旅行: ある時刻からの変更、行のその時点の値、復元（とその下見）、過去の時点からのブランチ
+ * - タイムトラベル: ある時刻からの変更、行のその時点の値、復元（とその下見）、過去の時点からのブランチ
  * - 状態: 接続、操作の記録と取り消し、マージから外す表、バックアップ、GC、heimdb_status
  *
  * 書き換える操作は、すべて admin-post.php への POST（nonce と権限を確かめる）で行い、結果を一時的に覚えて元の画面に
  * 戻す。
  *
  * ステージングのサイトがブランチだけの権限のユーザーでつなぐとき（Client::is_branch_user）は、そのブランチの差分、
- * 行ごとの解決、時間旅行と復元だけを出す（マージ、ブランチの管理、運用は本番のサイトから）。
+ * 行ごとの解決、タイムトラベルと復元だけを出す（マージ、ブランチの管理、運用は本番のサイトから）。
  */
 class Admin {
 	const PAGE_BRANCHES = 'heimdb';
@@ -41,7 +41,7 @@ class Admin {
 		if ( false === strpos( $hook, 'heimdb' ) ) {
 			return;
 		}
-		// 版にファイルの更新時刻を足して、直した CSS と JS がキャッシュで隠れないようにする。
+		// バージョンにファイルの更新時刻を足して、直した CSS と JS がキャッシュで隠れないようにする。
 		$ver = fn( string $file ) => HEIMDB_PLUGIN_VERSION . '.' . (int) @filemtime( HEIMDB_PLUGIN_DIR . '/' . $file );
 		wp_enqueue_style( 'heimdb-admin', plugins_url( 'assets/admin.css', HEIMDB_PLUGIN_FILE ), array(), $ver( 'assets/admin.css' ) );
 		wp_enqueue_script( 'heimdb-admin', plugins_url( 'assets/admin.js', HEIMDB_PLUGIN_FILE ), array(), $ver( 'assets/admin.js' ), true );
@@ -238,6 +238,16 @@ class Admin {
 					$notice = self::success( sprintf( __( 'GC done. Data before %1$s can no longer be read; removed %2$s versions.', 'heimdb' ), Time::display( $row['boundary'] ), number_format_i18n( (int) $row['versions'] ) ) );
 					break;
 
+				case 'rebuild_indexes':
+					$branch = (string) ( $p['branch'] ?? Client::site_branch() );
+					$rows   = $client->rebuild_indexes( $branch );
+					$notice = $rows
+						/* translators: 1: number, 2: branch */
+						? self::success( sprintf( _n( 'Rebuilt %1$s index on %2$s.', 'Rebuilt %1$s indexes on %2$s.', count( $rows ), 'heimdb' ), number_format_i18n( count( $rows ) ), $branch ), $rows )
+						/* translators: %s: branch */
+						: self::success( sprintf( __( '%s has no indexes to rebuild.', 'heimdb' ), $branch ) );
+					break;
+
 				default:
 					throw new Error( 'unknown operation' );
 			}
@@ -306,7 +316,7 @@ class Admin {
 			'core_table'           => __( 'WordPress core tables cannot be excluded from merges.', 'heimdb' ),
 		);
 		$message = $e->getMessage();
-		// 取り込み（heimdb_branch_sync）を断るときは、同じ語でも直し方が違う。
+		// 取り込み（heimdb_branch_sync）を拒否するときは、同じ語でも直し方が違う。
 		$sync    = 0 === strpos( $message, 'HeimDB: sync refused' );
 		if ( $sync ) {
 			$hints = array_merge(
@@ -318,7 +328,9 @@ class Admin {
 				)
 			);
 		}
-		if ( false !== strpos( $message, 'a branch user cannot use a time before the branch was created' ) ) {
+		if ( false !== strpos( $message, 'stored procedure "heimdb_rebuild_indexes" does not exist' ) ) {
+			$message .= ' — ' . __( 'Rebuilding indexes needs HeimDB 0.2.39 or later.', 'heimdb' );
+		} elseif ( false !== strpos( $message, 'a branch user cannot use a time before the branch was created' ) ) {
 			$message .= ' — ' . __( 'From a branch site, you can go back only to when the branch was created.', 'heimdb' );
 		} elseif ( false !== strpos( $message, 'a branch user must name a row' ) ) {
 			$message .= ' — ' . __( 'From a branch site, resolve the conflicts one row at a time.', 'heimdb' );
@@ -840,7 +852,7 @@ class Admin {
 		echo '<p class="description">' . esc_html( $note ) . '</p>';
 	}
 
-	// ================================================================ 画面: 時間旅行
+	// ================================================================ 画面: タイムトラベル
 
 	public static function page_time(): void {
 		echo '<div class="wrap heimdb">';
@@ -1105,6 +1117,14 @@ class Admin {
 		self::form_open( 'backup' );
 		echo '<p><input name="name" pattern="[A-Za-z0-9._\-]*" placeholder="before-upgrade"> <button class="button">' . esc_html__( 'Back up now', 'heimdb' ) . '</button></p></form></div>';
 
+		// 古いインデックスの作り直し（HeimDB 0.2.39 から）
+		echo '<div class="heimdb-box"><h2>' . esc_html__( 'Rebuild old indexes', 'heimdb' ) . '</h2>';
+		echo '<p class="description">' . esc_html__( 'Indexes on DECIMAL, FLOAT, DOUBLE, ENUM, SET and BIT columns made by HeimDB 0.2.40 or earlier have no entries and read the whole table each time (e.g. WooCommerce\'s wc_product_meta_lookup). Since HeimDB 0.2.42, main\'s are rebuilt in the background after start; rebuild branches and anything it skipped here. Writes to the branch wait while it runs. Needs HeimDB 0.2.39 or later.', 'heimdb' ) . '</p>';
+		self::form_open( 'rebuild_indexes' );
+		echo '<p>';
+		self::branch_select( 'branch', Client::site_branch() );
+		echo ' <button class="button">' . esc_html__( 'Rebuild', 'heimdb' ) . '</button></p></form></div>';
+
 		// GC
 		echo '<div class="heimdb-box heimdb-danger"><h2>' . esc_html__( 'Garbage collection', 'heimdb' ) . '</h2>';
 		echo '<p class="description">' . esc_html__( 'Removes versions older than the retention period now (the server also does this hourly). Points before the boundary can no longer be read, restored or branched from.', 'heimdb' ) . '</p>';
@@ -1226,7 +1246,7 @@ class Admin {
 				$v = $r[ $c ];
 				if ( in_array( $c, array( 'status', 'action' ), true ) ) {
 					echo '<td>' . self::status_badge( (string) $v ) . '</td>'; // phpcs:ignore WordPress.Security.EscapeOutput
-				} elseif ( 'table_name' === $c ) {
+				} elseif ( in_array( $c, array( 'table_name', 'table', 'index' ), true ) ) {
 					echo '<td><code>' . esc_html( (string) $v ) . '</code></td>';
 				} elseif ( is_numeric( $v ) ) {
 					echo '<td class="num">' . esc_html( self::num( $v ) ) . '</td>';
@@ -1240,7 +1260,7 @@ class Admin {
 	}
 
 	/**
-	 * 行の値を版ごとに並べる。長い文字列が違えば、行ごとの差分（wp_text_diff）も出す。
+	 * 行の値をバージョンごとに並べる。長い文字列が違えば、行ごとの差分（wp_text_diff）も出す。
 	 *
 	 * @param array<string,array<string,mixed>|null> $versions 見出しごとの行（ない行は null）。
 	 * @param string[]                               $highlight 目立たせる列。
@@ -1518,6 +1538,8 @@ class Admin {
 	private static function column_label( string $column ): string {
 		$labels = array(
 			'table_name' => __( 'Table', 'heimdb' ),
+			'table'      => __( 'Table', 'heimdb' ),
+			'index'      => __( 'Index', 'heimdb' ),
 			'status'     => __( 'Status', 'heimdb' ),
 			'action'     => __( 'Action', 'heimdb' ),
 			'inserts'    => __( 'Inserts', 'heimdb' ),
