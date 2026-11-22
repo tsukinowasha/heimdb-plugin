@@ -46,7 +46,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        heimdb: ["0.2.12", "0.2.14", "0.2.15", "0.2.16", "0.2.24", "0.2.33", "0.3.0", "0.3.1"]
+        heimdb: ["0.3.0", "0.3.1"]
     env:
       HEIMDB_VERSION: ${{ matrix.heimdb }}
     steps:

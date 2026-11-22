@@ -9,7 +9,7 @@
 # WordPress はサイトのユーザー wordpress でつなぎ、heimdb_* は wp-config.php の HEIMDB_ADMIN_* (root) で呼ぶ。
 #
 # ステージングのサイト（http://localhost:8091、プロファイル staging）は、ブランチ staging にブランチだけの権限のユーザー
-# staging でつなぎ、管理者の設定を持たない（HeimDB 0.2.15 の -branch-procedures で、差分、解決、復元を呼ぶ）。
+# staging でつなぎ、管理者の設定を持たない（HeimDB の -branch-procedures で、差分、解決、復元を呼ぶ）。
 #   dev/wp heimdb branch create staging
 #   dev/wp heimdb branch grant staging staging --password=staging-secret
 #   docker compose -f dev/compose.yaml --profile staging up -d
@@ -26,7 +26,7 @@ services:
     environment:
       HEIMDB_ROOT_PASSWORD: root-secret
       HEIMDB_SITE_PASSWORD: site-secret
-      HEIMDB_BRANCH_PROCEDURES: "1" # 0.2.15 から。それより前の版は読まない
+      HEIMDB_BRANCH_PROCEDURES: "1"
     ports:
       - "127.0.0.1:${HEIMDB_PORT:-3317}:3306"
     volumes:

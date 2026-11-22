@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * HEIMDB_ADMIN_USER がなければ、DB_USER と DB_PASSWORD でつなぐ（wp-cli だけを root で動かす構成）。
  *
  * ステージングのサイトは、管理者の設定を持たず、ブランチだけの権限のユーザー（DB_USER）でつなぐ。HeimDB を
- * -branch-procedures（0.2.15 から）で動かしていれば、そのユーザーでも自分のブランチの差分、行を指定した解決、
+ * -branch-procedures で動かしていれば、そのユーザーでも自分のブランチの差分、行を指定した解決、
  * 変更の一覧、復元を呼べる（is_branch_user）。ブランチの一覧、マージ、上限などは管理者だけ。
  *
  * 接続の time_zone は UTC にし、時刻はいつもオフセット付きで渡す（Time）。
@@ -346,7 +346,7 @@ class Client {
 	}
 
 	/**
-	 * 親の変更をブランチに取り込む（HeimDB 0.2.33 から）。ブランチのまだマージしていない変更は残る。
+	 * 親の変更をブランチに取り込む。ブランチのまだマージしていない変更は残る。
 	 *
 	 * 競合（両側が同じ列を変えた行など）があれば、側を渡さないと 51004 で拒否する。側はすべての競合に効く。
 	 * 結果の形はマージと同じで、最後の `undo` の行が取り込みを戻す heimdb_restore。
@@ -517,7 +517,7 @@ class Client {
 
 	/**
 	 * 表を選んだ復元の下見や結果で、組になる表（wp_posts と wp_postmeta など）の片方だけを戻すときに
-	 * HeimDB（0.2.14 から）が勧める、まとめて戻す heimdb_restore の引数。表は、勧められたものをすべて合わせる。
+	 * HeimDB が勧める、まとめて戻す heimdb_restore の引数。表は、勧められたものをすべて合わせる。
 	 *
 	 * @return array{branch:string,time:string,tables:string}|null
 	 */
@@ -566,7 +566,7 @@ class Client {
 	}
 
 	/**
-	 * 差分の行が、親の側でしか解決できない競合か（HeimDB 0.2.13 から。同じ id の別の行、親にいない投稿者など）。
+	 * 差分の行が、親の側でしか解決できない競合か（同じ id の別の行、親にいない投稿者など）。
 	 *
 	 * @return string|null その理由。
 	 */
@@ -590,7 +590,7 @@ class Client {
 	}
 
 	/**
-	 * 主キーのない表の行の名前か（HeimDB 0.2.20 から。`__heimdb_row_id=N`）。見えない行 ID は SQL で引けないので、1 行を読めない。
+	 * 主キーのない表の行の名前か（`__heimdb_row_id=N`）。見えない行 ID は SQL で引けないので、1 行を読めない。
 	 */
 	public static function is_hidden_row( string $id ): bool {
 		return (bool) preg_match( '/^__heimdb_row_id=\d+$/', $id );
@@ -727,9 +727,9 @@ class Client {
 	}
 
 	/**
-	 * 古い HeimDB（DECIMAL、FLOAT、DOUBLE、ENUM の列は 0.2.38 以前、SET と BIT の列は 0.2.40 以前）で作った、
-	 * エントリのないインデックスを作り直す（HeimDB 0.2.39 から）。手続きは接続中のデータベースのブランチに効くので、
-	 * 別のブランチなら、その間だけそのデータベースに切り替える。main は 0.2.42 から起動の後に裏で作り直される。
+	 * 古い HeimDB で作った、エントリのない DECIMAL、FLOAT、DOUBLE、ENUM、SET、BIT の列のインデックスを作り直す。
+	 * 手続きは接続中のデータベースのブランチに効くので、別のブランチなら、その間だけそのデータベースに切り替える。
+	 * main は HeimDB が起動の後に裏で作り直す。
 	 *
 	 * @param string|null $branch 省けばこのサイトのブランチ。
 	 * @return array<int,array<string,mixed>> 作り直したインデックス（`table`、`index`）。なければ空。
@@ -804,7 +804,7 @@ class Client {
 		} catch ( Error $e ) {
 			if ( self::is_denied( $e ) ) {
 				/* translators: %s: database user */
-				return new Error( sprintf( __( 'This site connects to HeimDB as %s, a user of this branch only. To see the diff, resolve conflicts and restore from this site, start HeimDB 0.2.15 or later with -branch-procedures. Merging and managing branches are done from the production site.', 'heimdb' ), self::admin_user() ), $e->getCode() );
+				return new Error( sprintf( __( 'This site connects to HeimDB as %s, a user of this branch only. To see the diff, resolve conflicts and restore from this site, start HeimDB with -branch-procedures. Merging and managing branches are done from the production site.', 'heimdb' ), self::admin_user() ), $e->getCode() );
 			}
 			return $e;
 		}

@@ -328,9 +328,7 @@ class Admin {
 				)
 			);
 		}
-		if ( false !== strpos( $message, 'stored procedure "heimdb_rebuild_indexes" does not exist' ) ) {
-			$message .= ' — ' . __( 'Rebuilding indexes needs HeimDB 0.2.39 or later.', 'heimdb' );
-		} elseif ( false !== strpos( $message, 'a branch user cannot use a time before the branch was created' ) ) {
+		if ( false !== strpos( $message, 'a branch user cannot use a time before the branch was created' ) ) {
 			$message .= ' — ' . __( 'From a branch site, you can go back only to when the branch was created.', 'heimdb' );
 		} elseif ( false !== strpos( $message, 'a branch user must name a row' ) ) {
 			$message .= ' — ' . __( 'From a branch site, resolve the conflicts one row at a time.', 'heimdb' );
@@ -549,12 +547,12 @@ class Admin {
 		}
 		echo '</div>';
 
-		// 取り込み（HeimDB 0.2.33 から）
+		// 取り込み
 		echo '<div class="heimdb-box">';
 		/* translators: %s: parent */
 		echo '<h2>' . esc_html( sprintf( __( 'Pull in changes from %s', 'heimdb' ), $b['parent'] ) ) . '</h2>';
 		/* translators: %s: parent */
-		echo '<p class="description">' . esc_html( sprintf( __( 'Brings the latest of %s into this branch in one commit, such as other branches merged while this one was in review. Changes on this branch that were not merged are kept. Comments and users are copied too; environment options (siteurl, home, ...) and tables excluded from merges are not. Files are not copied. Needs HeimDB 0.2.33 or later.', 'heimdb' ), $b['parent'] ) ) . '</p>';
+		echo '<p class="description">' . esc_html( sprintf( __( 'Brings the latest of %s into this branch in one commit, such as other branches merged while this one was in review. Changes on this branch that were not merged are kept. Comments and users are copied too; environment options (siteurl, home, ...) and tables excluded from merges are not. Files are not copied.', 'heimdb' ), $b['parent'] ) ) . '</p>';
 		if ( $resolved ) {
 			echo '<p class="heimdb-warn">' . esc_html__( 'Pulling in clears the resolutions recorded on this branch. Decide the conflicts again before merging.', 'heimdb' ) . '</p>';
 		}
@@ -795,7 +793,7 @@ class Admin {
 		}
 		/* translators: %s: parent */
 		$theirs_label = sprintf( __( '%s now', 'heimdb' ), $parent );
-		// 両側で足された同じ行は、親では別の主キーの行（HeimDB 0.2.16 からは parent_change が insert）。
+		// 両側で足された同じ行は、親では別の主キーの行（parent_change が insert）。
 		$duplicate = null === $theirs ? Client::parent_duplicate( $diff['detail'] ?? null ) : null;
 		if ( null !== $duplicate ) {
 			$theirs = $client->row( $parent, $table, $duplicate );
@@ -1117,9 +1115,9 @@ class Admin {
 		self::form_open( 'backup' );
 		echo '<p><input name="name" pattern="[A-Za-z0-9._\-]*" placeholder="before-upgrade"> <button class="button">' . esc_html__( 'Back up now', 'heimdb' ) . '</button></p></form></div>';
 
-		// 古いインデックスの作り直し（HeimDB 0.2.39 から）
+		// 古いインデックスの作り直し
 		echo '<div class="heimdb-box"><h2>' . esc_html__( 'Rebuild old indexes', 'heimdb' ) . '</h2>';
-		echo '<p class="description">' . esc_html__( 'Indexes on DECIMAL, FLOAT, DOUBLE, ENUM, SET and BIT columns made by HeimDB 0.2.40 or earlier have no entries and read the whole table each time (e.g. WooCommerce\'s wc_product_meta_lookup). Since HeimDB 0.2.42, main\'s are rebuilt in the background after start; rebuild branches and anything it skipped here. Writes to the branch wait while it runs. Needs HeimDB 0.2.39 or later.', 'heimdb' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Indexes on DECIMAL, FLOAT, DOUBLE, ENUM, SET and BIT columns made by older HeimDB versions have no entries and read the whole table each time (e.g. WooCommerce\'s wc_product_meta_lookup). HeimDB rebuilds main\'s in the background after it starts; rebuild branches and anything it skipped here. Writes to the branch wait while it runs.', 'heimdb' ) . '</p>';
 		self::form_open( 'rebuild_indexes' );
 		echo '<p>';
 		self::branch_select( 'branch', Client::site_branch() );
@@ -1152,7 +1150,7 @@ class Admin {
 	private static function setup_help(): void {
 		echo '<h2>' . esc_html__( 'Setup', 'heimdb' ) . '</h2>';
 		if ( 'main' !== Client::site_branch() && ! Client::has_admin_credentials() ) {
-			echo '<p>' . esc_html__( 'On a staging site, keep connecting with the user of the branch, and start HeimDB (0.2.15 or later) with the flag below. The user needs the EXECUTE privilege on the branch database, which GRANT ALL includes.', 'heimdb' ) . '</p>';
+			echo '<p>' . esc_html__( 'On a staging site, keep connecting with the user of the branch, and start HeimDB with the flag below. The user needs the EXECUTE privilege on the branch database, which GRANT ALL includes.', 'heimdb' ) . '</p>';
 			echo '<pre class="heimdb-code">heimdb -branch-procedures ...   # ' . esc_html__( 'or the environment variable HEIMDB_BRANCH_PROCEDURES=1', 'heimdb' ) . '</pre>';
 			echo '<p class="description">' . esc_html__( 'The diff then also shows values changed on the parent (production). Do not use the flag if branches separate different tenants.', 'heimdb' ) . '</p>';
 			return;
@@ -1357,7 +1355,7 @@ class Admin {
 	}
 
 	/**
-	 * 解決を記録したユーザーと時刻（HeimDB 0.2.15 から）。
+	 * 解決を記録したユーザーと時刻。
 	 */
 	private static function resolved_by( array $r ): string {
 		if ( empty( $r['resolved_by'] ) ) {

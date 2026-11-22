@@ -7,13 +7,13 @@ use WP_CLI\Utils;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * HeimDB のブランチ、差分、マージ、タイムトラベルと復元を操作する。
+ * Manages HeimDB branches, diffs, merges, time travel and restores.
  *
- * 手続きは wp-config.php の HEIMDB_ADMIN_USER（なければ DB_USER）で呼ぶ。時刻は、オフセットがなければサイトの
- * タイムゾーンで読む。`2 hours ago` のような書き方もできる。
+ * Procedures are called as HEIMDB_ADMIN_USER in wp-config.php (DB_USER if it is not set). Times without an offset are
+ * read in the site's timezone. Relative times such as `2 hours ago` work too.
  *
- * ステージングのサイトでブランチだけの権限のユーザーでつなぐなら、HeimDB 0.2.15 の -branch-procedures で、
- * そのブランチの diff、行を指定した resolve、changes、row、restore が使える（マージやブランチの管理は本番で）。
+ * A staging site that connects as a branch-only user can use diff, resolve with a row, changes, row and restore on its
+ * branch when HeimDB runs with -branch-procedures (merges and branch management are done on production).
  *
  * ## EXAMPLES
  *
@@ -29,26 +29,26 @@ defined( 'ABSPATH' ) || exit;
  */
 class CLI {
 	/**
-	 * 親との差分を見る。
+	 * Shows the diff against the parent.
 	 *
-	 * テーブルを省くとテーブルごとの要約、テーブル（`*` ならすべて）を渡すと行ごとの判定を出す。
+	 * Without a table, shows a summary per table. With a table (`*` for all), shows the action for each row.
 	 *
 	 * ## OPTIONS
 	 *
 	 * <branch>
-	 * : ブランチ。
+	 * : The branch.
 	 *
 	 * [<table>]
-	 * : テーブル。`*` ならすべてのテーブルの行。
+	 * : The table. `*` for the rows of all tables.
 	 *
 	 * [--conflicts]
-	 * : 行ごとの判定のうち、競合（と解決を記録したもの）だけを出す。<table> を省けば `*`。
+	 * : Show only the conflicting rows (and those with a recorded resolution). <table> defaults to `*`.
 	 *
 	 * [--all]
-	 * : 要約で、マージで変えるもののない `unchanged` のテーブルも出す。
+	 * : In the summary, also show `unchanged` tables that the merge would not change.
 	 *
 	 * [--format=<format>]
-	 * : 出力の形。
+	 * : The output format.
 	 * ---
 	 * default: table
 	 * options:
@@ -87,21 +87,21 @@ class CLI {
 	}
 
 	/**
-	 * 競合をどちらの側で解決するかを記録する。
+	 * Records which side resolves a conflict.
 	 *
 	 * ## OPTIONS
 	 *
 	 * <branch>
-	 * : ブランチ。
+	 * : The branch.
 	 *
 	 * <table>
-	 * : テーブル（`*` ならすべて）。
+	 * : The table (`*` for all).
 	 *
 	 * <row>
-	 * : 行（差分の id の形。`ID=1`、`option_name=blogname`）。`*` ならそのテーブルのすべての競合。
+	 * : The row, as the id in the diff (`ID=1`, `option_name=blogname`). `*` for all conflicts in the table.
 	 *
 	 * <side>
-	 * : 採る側。
+	 * : The side to keep.
 	 * ---
 	 * options:
 	 *   - branch
@@ -118,7 +118,7 @@ class CLI {
 		list( $branch, $table, $row, $side ) = $args;
 		$this->run( fn( Client $c ) => $c->branch_resolve( $branch, $table, $row, $side ) );
 		WP_CLI::success( "Recorded: $table $row -> $side" );
-		// ワイルドカードの 'branch' は、親の側でしか解決できない競合（HeimDB 0.2.13 から）には当たらない。
+		// ワイルドカードの 'branch' は、親の側でしか解決できない競合には当たらない。
 		if ( 'branch' === $side && '*' === $row ) {
 			$left = $this->run( fn( Client $c ) => $c->parent_only_conflicts( $branch, $table ) );
 			if ( $left ) {
@@ -128,24 +128,25 @@ class CLI {
 	}
 
 	/**
-	 * ブランチを親にマージする。
+	 * Merges a branch into its parent.
 	 *
-	 * 解決していない競合があれば、何も書かずに拒否する（`wp heimdb diff <branch> --conflicts` で見て、
-	 * `wp heimdb resolve` で解決する）。成功すれば、マージを戻すコマンドを出す。
+	 * With unresolved conflicts, the merge is refused and nothing is written (see them with
+	 * `wp heimdb diff <branch> --conflicts` and resolve them with `wp heimdb resolve`). On success, prints the command
+	 * that undoes the merge.
 	 *
 	 * ## OPTIONS
 	 *
 	 * <branch>
-	 * : ブランチ。
+	 * : The branch.
 	 *
 	 * [--dry-run]
-	 * : 実際のマージと同じ経路を通り、書かずに捨てる。
+	 * : Run the merge the same way as a real one, then discard it.
 	 *
 	 * [--yes]
-	 * : 確かめずにマージする。
+	 * : Merge without asking.
 	 *
 	 * [--format=<format>]
-	 * : 出力の形。
+	 * : The output format.
 	 * ---
 	 * default: table
 	 * options:
@@ -182,20 +183,21 @@ class CLI {
 	}
 
 	/**
-	 * 親の変更をブランチに取り込む（HeimDB 0.2.33 から）。
+	 * Pulls the parent's changes into a branch.
 	 *
-	 * ほかのブランチを本番にマージした後などに、検証中のブランチへ本番の最新を入れる。ブランチのまだマージしていない
-	 * 変更は残る。コメントとユーザーも写し、環境ごとのオプション（siteurl、home など）とマージから外した表は写さない。
-	 * 両側で同じ列を変えた競合があれば、--side を渡さないと何も書かずに拒否する。ブランチで記録した解決は消える。
-	 * 成功すれば、取り込みを戻すコマンドを出す。
+	 * Brings the latest of production into a branch under review, for example after other branches were merged.
+	 * Changes on the branch that were not merged are kept. Comments and users are copied too; environment options
+	 * (siteurl, home, ...) and tables excluded from merges are not. If both sides changed the same columns, the sync is
+	 * refused and nothing is written unless --side is given. Resolutions recorded on the branch are cleared. On success,
+	 * prints the command that undoes the sync.
 	 *
 	 * ## OPTIONS
 	 *
 	 * <branch>
-	 * : ブランチ。
+	 * : The branch.
 	 *
 	 * [--side=<side>]
-	 * : 競合した列で採る側。すべての競合に効く。両側が同じ ID で別の行を足した競合は parent でしか決められない。
+	 * : The side that conflicting columns keep, for all conflicts. Rows added on both sides with the same ID can only take the parent.
 	 * ---
 	 * options:
 	 *   - branch
@@ -203,13 +205,13 @@ class CLI {
 	 * ---
 	 *
 	 * [--dry-run]
-	 * : 書かずに、取り込む件数と競合を確かめる。
+	 * : Check the counts and conflicts without writing.
 	 *
 	 * [--yes]
-	 * : 確かめずに取り込む。
+	 * : Pull in without asking.
 	 *
 	 * [--format=<format>]
-	 * : 出力の形。
+	 * : The output format.
 	 * ---
 	 * default: table
 	 * options:
@@ -248,21 +250,21 @@ class CLI {
 	}
 
 	/**
-	 * ある時刻から今までに変わった行を見る。
+	 * Lists the rows changed since a time.
 	 *
 	 * ## OPTIONS
 	 *
 	 * <branch>
-	 * : ブランチ（本番は main）。
+	 * : The branch (main for production).
 	 *
 	 * <time>
-	 * : 時刻（`2026-10-18 09:00`、`1 hour ago` など）。オフセットがなければサイトのタイムゾーン。
+	 * : The time (`2026-10-18 09:00`, `1 hour ago`, ...). Without an offset, in the site's timezone.
 	 *
 	 * [--tables=<tables>]
-	 * : テーブル（カンマ区切り）。省けばすべて。
+	 * : Tables, comma-separated. All if omitted.
 	 *
 	 * [--format=<format>]
-	 * : 出力の形。
+	 * : The output format.
 	 * ---
 	 * default: table
 	 * options:
@@ -294,30 +296,30 @@ class CLI {
 	}
 
 	/**
-	 * ブランチを過去の時点に戻す。
+	 * Restores a branch to a past time.
 	 *
-	 * テーブルを省くと、コメントとユーザー（wp_comments、wp_commentmeta、wp_users、wp_usermeta）は今のまま残す。
-	 * 復元は取り消せる（結果に戻すコマンドを出す）。
+	 * Without tables, comments and users (wp_comments, wp_commentmeta, wp_users, wp_usermeta) are kept as they are now.
+	 * A restore can be undone (the command that undoes it is printed).
 	 *
 	 * ## OPTIONS
 	 *
 	 * <branch>
-	 * : ブランチ（本番は main）。
+	 * : The branch (main for production).
 	 *
 	 * <time>
-	 * : 時刻。オフセットがなければサイトのタイムゾーン。
+	 * : The time. Without an offset, in the site's timezone.
 	 *
 	 * [--tables=<tables>]
-	 * : 戻すテーブル（カンマ区切り）か `*`（すべて）。
+	 * : Tables to restore, comma-separated, or `*` for all.
 	 *
 	 * [--preview]
-	 * : 戻さずに、何が変わるかを見る。
+	 * : Show what would change without restoring.
 	 *
 	 * [--yes]
-	 * : 確かめずに戻す。
+	 * : Restore without asking.
 	 *
 	 * [--format=<format>]
-	 * : 出力の形。
+	 * : The output format.
 	 * ---
 	 * default: table
 	 * options:
@@ -372,27 +374,27 @@ class CLI {
 	}
 
 	/**
-	 * テーブルの 1 行を、ある時点で読む（タイムトラベル）。
+	 * Reads one row of a table as of a time (time travel).
 	 *
 	 * ## OPTIONS
 	 *
 	 * <branch>
-	 * : ブランチ（本番は main）。
+	 * : The branch (main for production).
 	 *
 	 * <table>
-	 * : テーブル。
+	 * : The table.
 	 *
 	 * <row>
-	 * : 行（差分や変更の一覧の id の形。`ID=12`、`option_name=blogname`）。
+	 * : The row, as the id in the diff or the list of changes (`ID=12`, `option_name=blogname`).
 	 *
 	 * [--at=<time>]
-	 * : 時刻。省けば今。
+	 * : The time. Now if omitted.
 	 *
 	 * [--compare]
-	 * : その時点の値と今の値を並べ、違う列に印を付ける。
+	 * : Show the value then and now side by side, and mark the columns that differ.
 	 *
 	 * [--format=<format>]
-	 * : 出力の形。
+	 * : The output format.
 	 * ---
 	 * default: table
 	 * options:
@@ -441,12 +443,12 @@ class CLI {
 	}
 
 	/**
-	 * HeimDB の状態を見る。
+	 * Shows the status of HeimDB.
 	 *
 	 * ## OPTIONS
 	 *
 	 * [--format=<format>]
-	 * : 出力の形。
+	 * : The output format.
 	 * ---
 	 * default: table
 	 * options:
@@ -465,12 +467,12 @@ class CLI {
 	}
 
 	/**
-	 * 動いたままバックアップを取る（HeimDB の -backup-dir の下）。
+	 * Takes an online backup (under HeimDB's -backup-dir).
 	 *
 	 * ## OPTIONS
 	 *
 	 * [<name>]
-	 * : 名前（英数字、`.`、`_`、`-`）。省けば時刻。
+	 * : The name (letters, digits, `.`, `_`, `-`). The time if omitted.
 	 */
 	public function backup( $args ) {
 		$row = $this->run( fn( Client $c ) => $c->backup( $args[0] ?? null ) );
@@ -478,14 +480,14 @@ class CLI {
 	}
 
 	/**
-	 * 保持期間より古いバージョンを今すぐ消す。
+	 * Removes versions older than the retention period now.
 	 *
-	 * 境界より前の時点は、タイムトラベル、復元、ブランチの作成に使えなくなる。
+	 * Times before the boundary can no longer be used for time travel, restores or creating branches.
 	 *
 	 * ## OPTIONS
 	 *
 	 * [--yes]
-	 * : 確かめずに消す。
+	 * : Remove without asking.
 	 */
 	public function gc( $args, $assoc ) {
 		WP_CLI::confirm( 'Remove versions older than the retention period now?', $assoc );
@@ -494,19 +496,19 @@ class CLI {
 	}
 
 	/**
-	 * 古い HeimDB で作った、エントリのないインデックスを作り直す（HeimDB 0.2.39 から）。
+	 * Creates entries for existing indexes on DECIMAL, FLOAT, DOUBLE, ENUM, SET and BIT columns that have none.
 	 *
-	 * DECIMAL、FLOAT、DOUBLE、ENUM の列は 0.2.38 以前、SET と BIT の列は 0.2.40 以前に作ったインデックスが、引くたびに
-	 * 表の全件を読む。main のものは HeimDB 0.2.42 から起動の後に裏で作り直されるので、ふつうはブランチと、裏の処理が
-	 * 飛ばしたものに使う。作り直す間は、そのブランチへの書き込みが待つ。
+	 * Such indexes, made by older HeimDB versions, read the whole table each time. HeimDB rebuilds main's in the
+	 * background after it starts, so this is usually for branches and anything that skipped. Writes to the branch wait
+	 * while it runs.
 	 *
 	 * ## OPTIONS
 	 *
 	 * [<branch>]
-	 * : ブランチ。省けばこのサイトのブランチ。
+	 * : The branch. This site's branch if omitted.
 	 *
 	 * [--format=<format>]
-	 * : 出力の形。
+	 * : The output format.
 	 * ---
 	 * default: table
 	 * options:
@@ -544,9 +546,6 @@ class CLI {
 			return $fn( Client::instance() );
 		} catch ( Error $e ) {
 			$hint = Client::is_denied( $e ) ? ' Only an administrator can do this: run it on the production site, or set HEIMDB_ADMIN_USER in wp-config.php.' : '';
-			if ( false !== strpos( $e->getMessage(), 'stored procedure "heimdb_rebuild_indexes" does not exist' ) ) {
-				$hint = ' Rebuilding indexes needs HeimDB 0.2.39 or later.';
-			}
 			WP_CLI::error( $e->getMessage() . ( $e->getCode() ? ' [' . $e->getCode() . ']' : '' ) . $hint );
 		}
 	}
@@ -587,7 +586,7 @@ class CLI {
 }
 
 /**
- * HeimDB のブランチを操作する。
+ * Manages HeimDB branches.
  *
  * ## EXAMPLES
  *
@@ -599,15 +598,15 @@ class CLI {
  */
 class CLI_Branch {
 	/**
-	 * ブランチの一覧。
+	 * Lists the branches.
 	 *
 	 * ## OPTIONS
 	 *
 	 * [--fields=<fields>]
-	 * : 出す列。
+	 * : The columns to show.
 	 *
 	 * [--format=<format>]
-	 * : 出力の形。
+	 * : The output format.
 	 * ---
 	 * default: table
 	 * options:
@@ -635,30 +634,30 @@ class CLI_Branch {
 	}
 
 	/**
-	 * ブランチを作る。データは複製しない（一瞬で終わる）。
+	 * Creates a branch. No data is copied, so it is instant.
 	 *
 	 * ## OPTIONS
 	 *
 	 * <name>
-	 * : 名前（英小文字、数字、`_`、`-`）。データベース `<本番のデータベース>@<名前>` に見える。
+	 * : The name (lowercase letters, digits, `_`, `-`). It appears as the database `<production database>@<name>`.
 	 *
 	 * [--parent=<parent>]
-	 * : 親。
+	 * : The parent.
 	 * ---
 	 * default: main
 	 * ---
 	 *
 	 * [--at=<time>]
-	 * : 親のこの時点から作る（保持期間の中だけ）。
+	 * : Create from the parent as of this time (within the retention period).
 	 *
 	 * [--max-size=<size>]
-	 * : 大きさの上限（`2G` など）。
+	 * : The size limit (`2G`, ...).
 	 *
 	 * [--max-time=<time>]
-	 * : 1 つの文の実行時間の上限（`30s` など）。
+	 * : The time limit of one statement (`30s`, ...).
 	 *
 	 * [--porcelain]
-	 * : データベースの名前だけを出す。
+	 * : Print only the database name.
 	 */
 	public function create( $args, $assoc ) {
 		list( $name ) = $args;
@@ -675,15 +674,15 @@ class CLI_Branch {
 	}
 
 	/**
-	 * ブランチを消す。子のブランチがあれば拒否する。解決の記録も消える。
+	 * Deletes a branch. Refused if it has child branches. Its recorded resolutions are deleted too.
 	 *
 	 * ## OPTIONS
 	 *
 	 * <name>
-	 * : ブランチ。
+	 * : The branch.
 	 *
 	 * [--yes]
-	 * : 確かめずに消す。
+	 * : Delete without asking.
 	 */
 	public function delete( $args, $assoc ) {
 		list( $name ) = $args;
@@ -693,18 +692,18 @@ class CLI_Branch {
 	}
 
 	/**
-	 * ブランチの大きさと文の実行時間に上限を付ける（`0` で外す）。
+	 * Sets limits on a branch's size and statement time (`0` removes one).
 	 *
 	 * ## OPTIONS
 	 *
 	 * <name>
-	 * : ブランチ。
+	 * : The branch.
 	 *
 	 * <size>
-	 * : 大きさ（`2G`、`500M`、バイト数、`0`）。
+	 * : The size (`2G`, `500M`, bytes, `0`).
 	 *
 	 * <time>
-	 * : 実行時間（`30s`、`500ms`、`2m`、`0`）。
+	 * : The statement time (`30s`, `500ms`, `2m`, `0`).
 	 */
 	public function limit( $args ) {
 		list( $name, $size, $time ) = $args;
@@ -713,29 +712,30 @@ class CLI_Branch {
 	}
 
 	/**
-	 * ブランチだけの権限のユーザー（ステージングのサイトがつなぐユーザー）を作る。
+	 * Creates a branch-only user (the user a staging site connects as).
 	 *
-	 * ユーザーがいなければ作り、ブランチのデータベースのすべての権限を与える。サイトが乗っ取られても本番に届かない。
+	 * Creates the user if it does not exist, and grants all privileges on the branch database. If the site is taken
+	 * over, production stays out of reach.
 	 *
 	 * ## OPTIONS
 	 *
 	 * <branch>
-	 * : ブランチ。
+	 * : The branch.
 	 *
 	 * <user>
-	 * : ユーザーの名前。
+	 * : The user name.
 	 *
 	 * [--password=<password>]
-	 * : パスワード。省けば作って出す（ユーザーがいれば変えない）。このサイトの DB_USER と管理者のユーザーは拒否する。
+	 * : The password. Generated and printed if omitted (an existing user keeps its password). This site's DB_USER and the administrator are refused.
 	 *
 	 * [--host=<host>]
-	 * : つなぐ元。
+	 * : The host the user connects from.
 	 * ---
 	 * default: %
 	 * ---
 	 *
 	 * [--max-connections=<n>]
-	 * : 同時接続の上限（0 なら上限なし）。省けば、作るときは 20、いるユーザーは変えない。
+	 * : The limit of concurrent connections (0 for none). If omitted, 20 for a new user; an existing user is unchanged.
 	 */
 	public function grant( $args, $assoc ) {
 		list( $branch, $user ) = $args;
@@ -751,7 +751,7 @@ class CLI_Branch {
 }
 
 /**
- * マージから外す表（作り直せる索引など）のパターン。
+ * Manages the patterns of tables excluded from merges (such as rebuildable indexes).
  *
  * ## EXAMPLES
  *
@@ -761,7 +761,7 @@ class CLI_Branch {
  */
 class CLI_Exclude {
 	/**
-	 * パターンの一覧。
+	 * Lists the patterns.
 	 *
 	 * @subcommand list
 	 */
@@ -772,12 +772,12 @@ class CLI_Exclude {
 	}
 
 	/**
-	 * パターンを足す（`LIKE` と同じく `%` と `_`）。WordPress 本体の表に当たるパターンは拒否される。
+	 * Adds a pattern (`%` and `_` as in `LIKE`). Patterns that match WordPress core tables are refused.
 	 *
 	 * ## OPTIONS
 	 *
 	 * <pattern>
-	 * : 表の名前のパターン。
+	 * : The table name pattern.
 	 */
 	public function add( $args ) {
 		CLI::run( fn( Client $c ) => $c->merge_exclude( $args[0] ) );
@@ -785,12 +785,12 @@ class CLI_Exclude {
 	}
 
 	/**
-	 * パターンを消す（マージに戻す）。
+	 * Removes a pattern (the tables are merged again).
 	 *
 	 * ## OPTIONS
 	 *
 	 * <pattern>
-	 * : 表の名前のパターン。
+	 * : The table name pattern.
 	 */
 	public function remove( $args ) {
 		CLI::run( fn( Client $c ) => $c->merge_include( $args[0] ) );

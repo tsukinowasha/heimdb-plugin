@@ -16,14 +16,9 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: heimdb.php
-#: includes/class-admin.php:1412
+#: includes/class-admin.php:1410
 msgid "HeimDB"
 msgstr "HeimDB"
-
-#. Plugin URI of the plugin
-#: heimdb.php
-msgid "https://github.com/tsukinowasha/heimdb"
-msgstr "https://github.com/tsukinowasha/heimdb"
 
 #. Description of the plugin
 #: heimdb.php
@@ -42,22 +37,22 @@ msgid "HeimDB branch: %s"
 msgstr "HeimDB のブランチ: %s"
 
 #: includes/class-admin.php:35
-#: includes/class-admin.php:384
-#: includes/class-admin.php:1412
+#: includes/class-admin.php:382
+#: includes/class-admin.php:1410
 msgid "Branches"
 msgstr "ブランチ"
 
 #: includes/class-admin.php:36
-#: includes/class-admin.php:419
-#: includes/class-admin.php:467
-#: includes/class-admin.php:881
-#: includes/class-admin.php:1023
+#: includes/class-admin.php:417
+#: includes/class-admin.php:465
+#: includes/class-admin.php:879
+#: includes/class-admin.php:1021
 msgid "Time travel"
 msgstr "タイムトラベル"
 
 #: includes/class-admin.php:37
-#: includes/class-admin.php:616
-#: includes/class-admin.php:1543
+#: includes/class-admin.php:614
+#: includes/class-admin.php:1541
 msgid "Status"
 msgstr "状態"
 
@@ -186,759 +181,759 @@ msgstr "この HeimDB は読み取り専用のレプリカです。本番のサ�
 msgid "WordPress core tables cannot be excluded from merges."
 msgstr "WordPress 本体の表は、マージから外せません。"
 
-#: includes/class-admin.php:344
+#: includes/class-admin.php:342
 msgid "HeimDB procedures need an administrator. Set HEIMDB_ADMIN_USER and HEIMDB_ADMIN_PASSWORD in wp-config.php."
 msgstr "HeimDB の手続きは管理者でないと呼べません。wp-config.php に HEIMDB_ADMIN_USER と HEIMDB_ADMIN_PASSWORD を設定してください。"
 
-#: includes/class-admin.php:389
-#: includes/class-admin.php:695
-#: includes/class-admin.php:913
-#: includes/class-admin.php:1333
+#: includes/class-admin.php:387
+#: includes/class-admin.php:693
+#: includes/class-admin.php:911
+#: includes/class-admin.php:1331
 msgid "Branch"
 msgstr "ブランチ"
 
-#: includes/class-admin.php:390
-#: includes/class-admin.php:436
-#: includes/class-admin.php:696
-#: includes/class-admin.php:1334
+#: includes/class-admin.php:388
+#: includes/class-admin.php:434
+#: includes/class-admin.php:694
+#: includes/class-admin.php:1332
 msgid "Parent"
 msgstr "親"
 
-#: includes/class-admin.php:391
+#: includes/class-admin.php:389
 msgid "Forked at"
 msgstr "分岐した時刻"
 
-#: includes/class-admin.php:392
+#: includes/class-admin.php:390
 msgid "Database"
 msgstr "データベース"
 
-#: includes/class-admin.php:393
-#: includes/class-admin.php:447
-#: includes/class-admin.php:578
+#: includes/class-admin.php:391
+#: includes/class-admin.php:445
+#: includes/class-admin.php:576
 msgid "Size"
 msgstr "大きさ"
 
-#: includes/class-admin.php:394
-#: includes/class-admin.php:445
-#: includes/class-admin.php:575
+#: includes/class-admin.php:392
+#: includes/class-admin.php:443
+#: includes/class-admin.php:573
 msgid "Limits"
 msgstr "上限"
 
-#: includes/class-admin.php:402
+#: includes/class-admin.php:400
 msgid "production"
 msgstr "本番"
 
-#: includes/class-admin.php:407
+#: includes/class-admin.php:405
 msgid "this site"
 msgstr "このサイト"
 
-#: includes/class-admin.php:417
+#: includes/class-admin.php:415
 msgid "Diff & merge"
 msgstr "差分とマージ"
 
-#: includes/class-admin.php:426
+#: includes/class-admin.php:424
 msgid "Create a branch"
 msgstr "ブランチを作成"
 
-#: includes/class-admin.php:427
+#: includes/class-admin.php:425
 msgid "A branch is a writable copy of its parent, made instantly without copying data. It appears as the database <production>@<name>."
 msgstr "ブランチは、親の書き込みのできる写しです。データを複製しないので、一瞬で作れます。データベース <本番>@<名前> として見えます。"
 
-#: includes/class-admin.php:431
-#: includes/class-admin.php:1053
+#: includes/class-admin.php:429
+#: includes/class-admin.php:1051
 msgid "Name"
 msgstr "名前"
 
-#: includes/class-admin.php:433
+#: includes/class-admin.php:431
 msgid "Lowercase letters, digits, \"_\" and \"-\"."
 msgstr "英小文字、数字、「_」、「-」。"
 
-#: includes/class-admin.php:440
+#: includes/class-admin.php:438
 msgid "From the point in time"
 msgstr "この時点から"
 
-#: includes/class-admin.php:442
+#: includes/class-admin.php:440
 msgid "Leave empty to branch from now. A past time must be within the retention period."
 msgstr "空なら今の状態から作ります。過去の時点は、古いバージョンを残す期間の中だけです。"
 
-#: includes/class-admin.php:448
-#: includes/class-admin.php:579
+#: includes/class-admin.php:446
+#: includes/class-admin.php:577
 msgid "Statement time"
 msgstr "文の実行時間"
 
-#: includes/class-admin.php:449
+#: includes/class-admin.php:447
 msgid "Optional. Keeps a staging site from using up the disk and time of production."
 msgstr "省略できます。ステージングのサイトが、本番のディスクと時間を使い尽くさないようにします。"
 
-#: includes/class-admin.php:453
-#: includes/class-admin.php:1054
+#: includes/class-admin.php:451
+#: includes/class-admin.php:1052
 msgid "Create branch"
 msgstr "ブランチを作成"
 
 #. translators: %s: branch
-#: includes/class-admin.php:466
+#: includes/class-admin.php:464
 #, php-format
 msgid "%s has no parent to merge into."
 msgstr "%s にはマージ先の親がありません。"
 
 #. translators: 1: branch, 2: parent
-#: includes/class-admin.php:481
+#: includes/class-admin.php:479
 #, php-format
 msgid "%1$s → %2$s"
 msgstr "%1$s → %2$s"
 
 #. translators: 1: time, 2: database, 3: size
-#: includes/class-admin.php:488
+#: includes/class-admin.php:486
 #, php-format
 msgid "Forked at %1$s · database %2$s · %3$s"
 msgstr "%1$s に分岐 · データベース %2$s · %3$s"
 
-#: includes/class-admin.php:498
+#: includes/class-admin.php:496
 msgid "Changes to merge"
 msgstr "マージする変更"
 
-#: includes/class-admin.php:500
+#: includes/class-admin.php:498
 msgid "Nothing to merge: the branch has no changes against its parent."
 msgstr "マージするものはありません。このブランチには、親に対する変更がありません。"
 
-#: includes/class-admin.php:506
+#: includes/class-admin.php:504
 msgid "Hide unchanged tables"
 msgstr "変更のない表を隠す"
 
 #. translators: %d: number of tables
-#: includes/class-admin.php:508
+#: includes/class-admin.php:506
 #, php-format
 msgid "Show %d unchanged tables"
 msgstr "変更のない表 %d 個を表示"
 
-#: includes/class-admin.php:512
+#: includes/class-admin.php:510
 msgid "Show every row"
 msgstr "すべての行を表示"
 
-#: includes/class-admin.php:518
+#: includes/class-admin.php:516
 msgid "Merge"
 msgstr "マージ"
 
 #. translators: %d: number of conflicts
-#: includes/class-admin.php:521
+#: includes/class-admin.php:519
 #, php-format
 msgid "%d unresolved conflict. Decide which side to keep for each row before merging."
 msgid_plural "%d unresolved conflicts. Decide which side to keep for each row before merging."
 msgstr[0] "解決していない競合が %d 件あります。マージの前に、行ごとにどちらの側を採るかを決めてください。"
 
-#: includes/class-admin.php:522
+#: includes/class-admin.php:520
 msgid "Review conflicts"
 msgstr "競合を確認"
 
-#: includes/class-admin.php:525
+#: includes/class-admin.php:523
 msgid "Keep the branch for all"
 msgstr "すべてブランチの側を採る"
 
-#: includes/class-admin.php:526
+#: includes/class-admin.php:524
 msgid "Keep the parent for all"
 msgstr "すべて親の側を採る"
 
 #. translators: %d: number of conflicts
-#: includes/class-admin.php:531
+#: includes/class-admin.php:529
 #, php-format
 msgid "%d conflict resolved."
 msgid_plural "%d conflicts resolved."
 msgstr[0] "%d 件の競合を解決済みです。"
 
-#: includes/class-admin.php:539
+#: includes/class-admin.php:537
 msgid "The merge is a single commit; on failure nothing is written. Writes to the parent wait while it runs. Comments and users stay as they are on the parent."
 msgstr "マージは 1 つのコミットで、失敗すれば何も書き込みません。マージの間、親への書き込みは待たされます。コメントとユーザーは親のまま残ります。"
 
-#: includes/class-admin.php:543
-#: includes/class-admin.php:570
+#: includes/class-admin.php:541
+#: includes/class-admin.php:568
 msgid "Dry run"
 msgstr "空打ち"
 
 #. translators: 1: branch, 2: parent
-#: includes/class-admin.php:544
+#: includes/class-admin.php:542
 #, php-format
 msgid "Merge %1$s into %2$s?"
 msgstr "%1$s を %2$s にマージしますか？"
 
 #. translators: %s: parent
-#: includes/class-admin.php:547
+#: includes/class-admin.php:545
 #, php-format
 msgid "Merge into %s"
 msgstr "%s にマージ"
 
-#: includes/class-admin.php:580
+#: includes/class-admin.php:578
 msgid "Empty means no limit."
 msgstr "空なら上限なし。"
 
-#: includes/class-admin.php:581
+#: includes/class-admin.php:579
 msgid "Save limits"
 msgstr "上限を保存"
 
-#: includes/class-admin.php:584
+#: includes/class-admin.php:582
 msgid "Database user for the branch site"
 msgstr "ブランチのサイト用のデータベースユーザー"
 
 #. translators: %s: database name
-#: includes/class-admin.php:586
+#: includes/class-admin.php:584
 #, php-format
 msgid "Creates (or updates) a user that can use only %s. Even if the staging site is compromised, production is out of reach."
 msgstr "%s だけを使えるユーザーを作成（または更新）します。ステージングのサイトが乗っ取られても、本番には届きません。"
 
-#: includes/class-admin.php:589
+#: includes/class-admin.php:587
 msgid "User"
 msgstr "ユーザー"
 
-#: includes/class-admin.php:590
+#: includes/class-admin.php:588
 msgid "Password"
 msgstr "パスワード"
 
-#: includes/class-admin.php:590
+#: includes/class-admin.php:588
 msgid "generate"
 msgstr "自動で生成"
 
-#: includes/class-admin.php:591
+#: includes/class-admin.php:589
 msgid "Max connections"
 msgstr "同時接続数の上限"
 
-#: includes/class-admin.php:593
+#: includes/class-admin.php:591
 msgid "Grant"
 msgstr "権限を与える"
 
-#: includes/class-admin.php:598
+#: includes/class-admin.php:596
 msgid "Delete"
 msgstr "削除"
 
 #. translators: %s: branch
-#: includes/class-admin.php:603
+#: includes/class-admin.php:601
 #, php-format
 msgid "Delete branch %s? Its changes that were not merged are lost."
 msgstr "ブランチ %s を削除しますか？マージしていない変更は失われます。"
 
-#: includes/class-admin.php:605
+#: includes/class-admin.php:603
 msgid "Delete this branch"
 msgstr "このブランチを削除"
 
-#: includes/class-admin.php:615
-#: includes/class-admin.php:693
-#: includes/class-admin.php:942
-#: includes/class-admin.php:1540
-#: includes/class-admin.php:1541
+#: includes/class-admin.php:613
+#: includes/class-admin.php:691
+#: includes/class-admin.php:940
+#: includes/class-admin.php:1538
+#: includes/class-admin.php:1539
 msgid "Table"
 msgstr "表"
 
-#: includes/class-admin.php:617
+#: includes/class-admin.php:615
 msgid "Rows the merge inserts into the parent"
 msgstr "マージで親に追加する行"
 
-#: includes/class-admin.php:618
+#: includes/class-admin.php:616
 msgid "Rows the merge updates in the parent"
 msgstr "マージで親を更新する行"
 
-#: includes/class-admin.php:619
+#: includes/class-admin.php:617
 msgid "Rows the merge deletes from the parent"
 msgstr "マージで親から削除する行"
 
-#: includes/class-admin.php:620
-#: includes/class-admin.php:1548
+#: includes/class-admin.php:618
+#: includes/class-admin.php:1546
 msgid "Skipped"
 msgstr "対象外"
 
-#: includes/class-admin.php:621
-#: includes/class-admin.php:1549
+#: includes/class-admin.php:619
+#: includes/class-admin.php:1547
 msgid "Conflicts"
 msgstr "競合"
 
-#: includes/class-admin.php:622
-#: includes/class-admin.php:1550
+#: includes/class-admin.php:620
+#: includes/class-admin.php:1548
 msgid "Resolved"
 msgstr "解決済み"
 
-#: includes/class-admin.php:623
-#: includes/class-admin.php:1551
+#: includes/class-admin.php:621
+#: includes/class-admin.php:1549
 msgid "Warnings"
 msgstr "警告"
 
-#: includes/class-admin.php:624
-#: includes/class-admin.php:699
-#: includes/class-admin.php:942
-#: includes/class-admin.php:1552
+#: includes/class-admin.php:622
+#: includes/class-admin.php:697
+#: includes/class-admin.php:940
+#: includes/class-admin.php:1550
 msgid "Detail"
 msgstr "詳細"
 
 #. translators: 1: table, 2: branch, 3: parent
+#: includes/class-admin.php:661
 #: includes/class-admin.php:663
-#: includes/class-admin.php:665
 msgid "All tables"
 msgstr "すべての表"
 
 #. translators: 1: table, 2: branch, 3: parent
-#: includes/class-admin.php:665
+#: includes/class-admin.php:663
 #, php-format
 msgid "%1$s: %2$s → %3$s"
 msgstr "%1$s: %2$s → %3$s"
 
-#: includes/class-admin.php:670
+#: includes/class-admin.php:668
 msgid "All"
 msgstr "すべて"
 
 #. translators: %s: table
-#: includes/class-admin.php:680
+#: includes/class-admin.php:678
 #, php-format
 msgid "Keep the branch for all conflicts in %s"
 msgstr "%s の競合はすべてブランチの側を採る"
 
 #. translators: %s: table
-#: includes/class-admin.php:682
+#: includes/class-admin.php:680
 #, php-format
 msgid "Keep the parent for all conflicts in %s"
 msgstr "%s の競合はすべて親の側を採る"
 
-#: includes/class-admin.php:687
+#: includes/class-admin.php:685
 msgid "No rows."
 msgstr "行はありません。"
 
-#: includes/class-admin.php:694
-#: includes/class-admin.php:942
+#: includes/class-admin.php:692
+#: includes/class-admin.php:940
 msgid "Row"
 msgstr "行"
 
-#: includes/class-admin.php:697
+#: includes/class-admin.php:695
 msgid "Merge does"
 msgstr "マージでの扱い"
 
-#: includes/class-admin.php:698
-#: includes/class-admin.php:942
+#: includes/class-admin.php:696
+#: includes/class-admin.php:940
 msgid "Columns"
 msgstr "列"
 
-#: includes/class-admin.php:700
+#: includes/class-admin.php:698
 msgid "Resolution"
 msgstr "解決"
 
-#: includes/class-admin.php:768
+#: includes/class-admin.php:766
 msgid "Merge does:"
 msgstr "マージでの扱い:"
 
-#: includes/class-admin.php:774
+#: includes/class-admin.php:772
 msgid "Which value should the merge keep?"
 msgstr "マージでどちらの値を採りますか？"
 
-#: includes/class-admin.php:775
+#: includes/class-admin.php:773
 msgid "Only the conflicting columns are decided here. Columns changed only on the branch are merged either way."
 msgstr "ここで決めるのは、競合した列だけです。ブランチだけで変えた列は、どちらを選んでもマージされます。"
 
-#: includes/class-admin.php:781
+#: includes/class-admin.php:779
 msgid "This row is no longer in the diff (it may have been merged or changed back)."
 msgstr "この行は、もう差分にありません（マージされたか、元に戻された可能性があります）。"
 
 #. translators: 1: parent, 2: time
-#: includes/class-admin.php:807
+#: includes/class-admin.php:805
 #, php-format
 msgid "%1$s at fork (%2$s)"
 msgstr "分岐の時点の %1$s（%2$s）"
 
 #. translators: %s: parent
 #. translators: %s: branch
-#: includes/class-admin.php:797
-#: includes/class-admin.php:810
-#: includes/class-admin.php:836
+#: includes/class-admin.php:795
+#: includes/class-admin.php:808
+#: includes/class-admin.php:834
+#: includes/class-admin.php:846
 #: includes/class-admin.php:848
-#: includes/class-admin.php:850
 #, php-format
 msgid "%s now"
 msgstr "今の %s"
 
-#: includes/class-admin.php:882
+#: includes/class-admin.php:880
 msgid "HeimDB keeps every version of every row for the retention period. See what changed since a point in time, read a row as it was, restore the branch to that point (undoable), or branch off from it."
 msgstr "HeimDB は、古いバージョンを残す期間のあいだ、すべての行のすべてのバージョンを持っています。ある時点からの変更を見る、行の当時の値を読む、ブランチをその時点に戻す（取り消せます）、その時点からブランチを作る、ができます。"
 
-#: includes/class-admin.php:904
+#: includes/class-admin.php:902
 msgid "15 min ago"
 msgstr "15 分前"
 
-#: includes/class-admin.php:905
+#: includes/class-admin.php:903
 msgid "1 hour ago"
 msgstr "1 時間前"
 
-#: includes/class-admin.php:906
+#: includes/class-admin.php:904
 msgid "1 day ago"
 msgstr "1 日前"
 
-#: includes/class-admin.php:907
+#: includes/class-admin.php:905
 msgid "7 days ago"
 msgstr "7 日前"
 
-#: includes/class-admin.php:914
+#: includes/class-admin.php:912
 msgid "Time"
 msgstr "時刻"
 
-#: includes/class-admin.php:923
+#: includes/class-admin.php:921
 msgid "Tables"
 msgstr "表"
 
-#: includes/class-admin.php:924
+#: includes/class-admin.php:922
 msgid "Comma separated. Empty means all."
 msgstr "カンマ区切り。空ならすべて。"
 
-#: includes/class-admin.php:927
+#: includes/class-admin.php:925
 msgid "Show changes since then"
 msgstr "その時点からの変更を表示"
 
-#: includes/class-admin.php:928
+#: includes/class-admin.php:926
 msgid "Preview restoring to then"
 msgstr "その時点への復元を下見"
 
 #. translators: 1: branch, 2: time
-#: includes/class-admin.php:937
+#: includes/class-admin.php:935
 #, php-format
 msgid "Changes on %1$s since %2$s"
 msgstr "%2$s からの %1$s の変更"
 
-#: includes/class-admin.php:939
+#: includes/class-admin.php:937
 msgid "Nothing changed since then."
 msgstr "その時点から変わったものはありません。"
 
-#: includes/class-admin.php:942
+#: includes/class-admin.php:940
 msgid "Changed at"
 msgstr "変更の時刻"
 
-#: includes/class-admin.php:942
+#: includes/class-admin.php:940
 msgid "Change"
 msgstr "変更"
 
 #. translators: 1: branch, 2: time
-#: includes/class-admin.php:973
+#: includes/class-admin.php:971
 #, php-format
 msgid "Restoring %1$s to %2$s would…"
 msgstr "%1$s を %2$s に復元すると…"
 
-#: includes/class-admin.php:975
+#: includes/class-admin.php:973
 msgid "Nothing to restore: the branch is already in that state."
 msgstr "復元するものはありません。ブランチはすでにその状態です。"
 
-#: includes/class-admin.php:989
+#: includes/class-admin.php:987
 msgid "Comments and users (wp_comments, wp_commentmeta, wp_users, wp_usermeta) are kept as they are now, so comments posted and users added since then are not lost. Choose \"All tables\" to restore them too."
 msgstr "コメントとユーザー（wp_comments、wp_commentmeta、wp_users、wp_usermeta）は今のまま残すので、その後に付いたコメントや追加したユーザーは失われません。これらも戻すなら「すべての表」を選んでください。"
 
 #. translators: 1: branch, 2: time
-#: includes/class-admin.php:995
+#: includes/class-admin.php:993
 #, php-format
 msgid "Restore %1$s to %2$s? You can undo it afterwards."
 msgstr "%1$s を %2$s の状態に復元しますか？後から取り消せます。"
 
-#: includes/class-admin.php:998
+#: includes/class-admin.php:996
 msgid "Everything except comments and users"
 msgstr "コメントとユーザー以外のすべて"
 
-#: includes/class-admin.php:999
+#: includes/class-admin.php:997
 msgid "All tables (including comments and users)"
 msgstr "すべての表（コメントとユーザーを含む）"
 
-#: includes/class-admin.php:1000
+#: includes/class-admin.php:998
 msgid "Only these tables:"
 msgstr "次の表だけ:"
 
-#: includes/class-admin.php:1007
+#: includes/class-admin.php:1005
 msgid "Restore"
 msgstr "復元"
 
 #. translators: %s: branch
-#: includes/class-admin.php:1030
+#: includes/class-admin.php:1028
 #, php-format
 msgid "Branch %s"
 msgstr "ブランチ %s"
 
-#: includes/class-admin.php:1033
+#: includes/class-admin.php:1031
 msgid "Now"
 msgstr "今"
 
 #. translators: 1: table, 2: time
-#: includes/class-admin.php:1040
+#: includes/class-admin.php:1038
 #, php-format
 msgid "To put back only this table, preview restoring %1$s to %2$s."
 msgstr "この表だけを戻すなら、%1$s を %2$s に復元する下見をしてください。"
 
-#: includes/class-admin.php:1041
+#: includes/class-admin.php:1039
 msgid "Preview"
 msgstr "下見"
 
-#: includes/class-admin.php:1048
+#: includes/class-admin.php:1046
 msgid "Branch off from this point"
 msgstr "この時点からブランチを作成"
 
 #. translators: 1: branch, 2: time
-#: includes/class-admin.php:1050
+#: includes/class-admin.php:1048
 #, php-format
 msgid "Creates a new branch with %1$s as it was at %2$s, without changing %1$s. Useful to look around or to take data back by merging."
 msgstr "%2$s の時点の %1$s から新しいブランチを作ります。%1$s は変わりません。当時の状態を見て回るときや、データをマージで取り戻すときに使えます。"
 
-#: includes/class-admin.php:1061
+#: includes/class-admin.php:1059
 msgid "HeimDB status"
 msgstr "HeimDB の状態"
 
-#: includes/class-admin.php:1081
+#: includes/class-admin.php:1079
 msgid "None yet."
 msgstr "まだありません。"
 
-#: includes/class-admin.php:1088
+#: includes/class-admin.php:1086
 msgid "Server"
 msgstr "サーバ"
 
-#: includes/class-admin.php:1079
-#: includes/class-admin.php:1099
+#: includes/class-admin.php:1077
+#: includes/class-admin.php:1097
 msgid "Tables excluded from merges"
 msgstr "マージから外す表"
 
-#: includes/class-admin.php:1100
+#: includes/class-admin.php:1098
 msgid "Rebuildable tables such as search indexes (e.g. wp_yoast_%). Merges leave them as they are on the parent."
 msgstr "検索の索引など、作り直せる表（例: wp_yoast_%）。マージでは親の表をそのまま残します。"
 
-#: includes/class-admin.php:1107
+#: includes/class-admin.php:1105
 msgid "Remove"
 msgstr "外す"
 
-#: includes/class-admin.php:1112
+#: includes/class-admin.php:1110
 msgid "Exclude"
 msgstr "マージから外す"
 
-#: includes/class-admin.php:1115
+#: includes/class-admin.php:1113
 msgid "Backup"
 msgstr "バックアップ"
 
-#: includes/class-admin.php:1116
+#: includes/class-admin.php:1114
 msgid "A consistent online backup of all branches, history and users, written under the server's -backup-dir."
 msgstr "すべてのブランチ、履歴、ユーザーの整合したバックアップを、動いたまま取ります。サーバの -backup-dir の下に書きます。"
 
-#: includes/class-admin.php:1118
+#: includes/class-admin.php:1116
 msgid "Back up now"
 msgstr "今すぐバックアップ"
 
-#: includes/class-admin.php:1129
+#: includes/class-admin.php:1127
 msgid "Garbage collection"
 msgstr "GC（古いバージョンの削除）"
 
-#: includes/class-admin.php:1130
+#: includes/class-admin.php:1128
 msgid "Removes versions older than the retention period now (the server also does this hourly). Points before the boundary can no longer be read, restored or branched from."
 msgstr "古いバージョンを残す期間を過ぎたバージョンを、今すぐ削除します（サーバも 1 時間ごとに行います）。境界より前の時点は、読むことも、復元することも、ブランチを作ることもできなくなります。"
 
-#: includes/class-admin.php:1131
+#: includes/class-admin.php:1129
 msgid "Remove old versions now?"
 msgstr "古いバージョンを今すぐ削除しますか？"
 
-#: includes/class-admin.php:1132
+#: includes/class-admin.php:1130
 msgid "Run GC"
 msgstr "GC を実行"
 
 #. translators: 1: user, 2: host, 3: branch, 4: database
-#: includes/class-admin.php:1141
+#: includes/class-admin.php:1139
 #, php-format
 msgid "Procedures run as %1$s@%2$s. This site uses branch %3$s (database %4$s)."
 msgstr "手続きは %1$s@%2$s で呼びます。このサイトはブランチ %3$s（データベース %4$s）を使っています。"
 
-#: includes/class-admin.php:1153
+#: includes/class-admin.php:1151
 msgid "Setup"
 msgstr "設定"
 
-#: includes/class-admin.php:1160
+#: includes/class-admin.php:1158
 msgid "HeimDB procedures can be called only by an administrator (SUPER). WordPress itself should keep connecting with the site user, so give this plugin the administrator separately in wp-config.php:"
 msgstr "HeimDB の手続きは、管理者（SUPER 権限）しか呼べません。WordPress 本体はサイトのユーザーのままにして、このプラグインにだけ wp-config.php で管理者を渡してください:"
 
-#: includes/class-admin.php:1161
+#: includes/class-admin.php:1159
 msgid "defaults to DB_HOST"
 msgstr "省けば DB_HOST"
 
-#: includes/class-admin.php:1162
+#: includes/class-admin.php:1160
 msgid "Anyone who can run PHP on this site can read these credentials. Define them only on the site you manage branches from (usually production), never on a staging site."
 msgstr "この情報は、このサイトで PHP を動かせる人なら誰でも読めます。ブランチを管理するサイト（ふつうは本番）にだけ書き、ステージングのサイトには書かないでください。"
 
 #. translators: %s: branch
-#: includes/class-admin.php:1183
+#: includes/class-admin.php:1181
 #, php-format
 msgid "This site is running on branch %s, not production."
 msgstr "このサイトは本番ではなく、ブランチ %s で動いています。"
 
-#: includes/class-admin.php:1278
+#: includes/class-admin.php:1276
 msgid "The row does not exist in any of these versions."
 msgstr "この行は、どのバージョンにもありません。"
 
-#: includes/class-admin.php:1284
+#: includes/class-admin.php:1282
 msgid "Column"
 msgstr "列"
 
-#: includes/class-admin.php:1296
+#: includes/class-admin.php:1294
 msgid "(no row)"
 msgstr "（行なし）"
 
-#: includes/class-admin.php:1329
+#: includes/class-admin.php:1327
 msgid "Keep the branch value"
 msgstr "ブランチの値を採る"
 
-#: includes/class-admin.php:1330
+#: includes/class-admin.php:1328
 msgid "Keep the parent value"
 msgstr "親の値を採る"
 
-#: includes/class-admin.php:1345
+#: includes/class-admin.php:1343
 msgid "Undecide"
 msgstr "決定を取り消す"
 
 #. translators: 1: branch, 2: time, 3: tables
-#: includes/class-admin.php:1379
+#: includes/class-admin.php:1377
 #, php-format
 msgid "Restore %1$s to %2$s (%3$s)? Anything written to these tables since then is lost."
 msgstr "%1$s を %2$s の状態に復元しますか（%3$s）？その後にこれらの表に書き込んだものは失われます。"
 
 #. translators: 1: branch, 2: time, 3: tables
-#: includes/class-admin.php:1379
+#: includes/class-admin.php:1377
 msgid "all but comments and users"
 msgstr "コメントとユーザー以外"
 
-#: includes/class-admin.php:1384
+#: includes/class-admin.php:1382
 msgid "Undo"
 msgstr "取り消す"
 
-#: includes/class-admin.php:1516
+#: includes/class-admin.php:1514
 msgid "changed"
 msgstr "変更あり"
 
-#: includes/class-admin.php:1517
+#: includes/class-admin.php:1515
 msgid "merged"
 msgstr "マージ済み"
 
-#: includes/class-admin.php:1519
+#: includes/class-admin.php:1517
 msgid "restore rows"
 msgstr "行を戻す"
 
-#: includes/class-admin.php:1520
+#: includes/class-admin.php:1518
 msgid "restore definition"
 msgstr "定義ごと戻す"
 
-#: includes/class-admin.php:1521
+#: includes/class-admin.php:1519
 msgid "new table"
 msgstr "新しい表"
 
-#: includes/class-admin.php:1522
+#: includes/class-admin.php:1520
 msgid "schema differs"
 msgstr "定義の食い違い"
 
-#: includes/class-admin.php:1523
+#: includes/class-admin.php:1521
 msgid "excluded"
 msgstr "マージから外した表"
 
-#: includes/class-admin.php:1524
+#: includes/class-admin.php:1522
 msgid "not excluded"
 msgstr "外せない表"
 
-#: includes/class-admin.php:1525
+#: includes/class-admin.php:1523
 msgid "unchanged"
 msgstr "変更なし"
 
-#: includes/class-admin.php:1526
+#: includes/class-admin.php:1524
 msgid "not restored"
 msgstr "戻さない"
 
-#: includes/class-admin.php:1527
+#: includes/class-admin.php:1525
 msgid "drop table"
 msgstr "表を削除"
 
-#: includes/class-admin.php:1528
+#: includes/class-admin.php:1526
 msgid "dropped on branch"
 msgstr "ブランチで削除"
 
-#: includes/class-admin.php:1529
+#: includes/class-admin.php:1527
 msgid "dropped on parent"
 msgstr "親で削除"
 
-#: includes/class-admin.php:1530
+#: includes/class-admin.php:1528
 msgid "dropped on branch (not merged)"
 msgstr "ブランチで削除（マージしない）"
 
-#: includes/class-admin.php:1544
+#: includes/class-admin.php:1542
 msgid "Action"
 msgstr "処理"
 
-#: includes/class-admin.php:1545
+#: includes/class-admin.php:1543
 msgid "Inserts"
 msgstr "追加"
 
-#: includes/class-admin.php:1546
+#: includes/class-admin.php:1544
 msgid "Updates"
 msgstr "更新"
 
-#: includes/class-admin.php:1547
+#: includes/class-admin.php:1545
 msgid "Deletes"
 msgstr "削除"
 
 #. translators: %s: side such as "keep branch"
-#: includes/class-admin.php:1564
+#: includes/class-admin.php:1562
 #, php-format
 msgid "resolved: %s"
 msgstr "解決済み: %s"
 
-#: includes/class-admin.php:1575
+#: includes/class-admin.php:1573
 msgid "insert"
 msgstr "追加"
 
-#: includes/class-admin.php:1576
+#: includes/class-admin.php:1574
 msgid "update"
 msgstr "更新"
 
-#: includes/class-admin.php:1577
+#: includes/class-admin.php:1575
 msgid "delete"
 msgstr "削除"
 
-#: includes/class-admin.php:1578
+#: includes/class-admin.php:1576
 msgid "skip"
 msgstr "対象外"
 
-#: includes/class-admin.php:1579
+#: includes/class-admin.php:1577
 msgid "conflict"
 msgstr "競合"
 
-#: includes/class-admin.php:1580
+#: includes/class-admin.php:1578
 msgid "warning"
 msgstr "警告"
 
-#: includes/class-admin.php:1581
+#: includes/class-admin.php:1579
 msgid "merge"
 msgstr "マージ"
 
-#: includes/class-admin.php:1582
+#: includes/class-admin.php:1580
 msgid "restore"
 msgstr "復元"
 
-#: includes/class-admin.php:1583
+#: includes/class-admin.php:1581
 msgid "undo"
 msgstr "取り消し"
 
-#: includes/class-admin.php:1585
+#: includes/class-admin.php:1583
 msgid "table created"
 msgstr "表の作成"
 
-#: includes/class-admin.php:1586
+#: includes/class-admin.php:1584
 msgid "table dropped"
 msgstr "表の削除"
 
-#: includes/class-admin.php:1587
+#: includes/class-admin.php:1585
 msgid "table changed"
 msgstr "表の変更"
 
-#: includes/class-admin.php:1588
+#: includes/class-admin.php:1586
 msgid "not shown"
 msgstr "表示しない"
 
-#: includes/class-admin.php:1599
+#: includes/class-admin.php:1597
 msgid "keep branch"
 msgstr "ブランチを採る"
 
-#: includes/class-admin.php:1600
+#: includes/class-admin.php:1598
 msgid "keep parent"
 msgstr "親を採る"
 
-#: includes/class-admin.php:1601
+#: includes/class-admin.php:1599
 msgid "undecided"
 msgstr "未決定"
 
-#: includes/class-admin.php:1602
+#: includes/class-admin.php:1600
 msgid "stale — decide again"
 msgstr "古い記録 — 決め直してください"
 
@@ -993,17 +988,17 @@ msgid "Some rows also changed in a paired table that was not restored (see Detai
 msgstr "組になる表で、戻さなかった方にも変更のある行があります（詳細を参照）。まとめて戻すなら、%s を戻してください。"
 
 #. translators: %s: tables
-#: includes/class-admin.php:984
+#: includes/class-admin.php:982
 #, php-format
 msgid "Some rows also changed in a paired table that would not be restored (see Detail). Restoring only one side leaves, for example, a post with its old title but new custom fields. Restore %s together?"
 msgstr "組になる表で、戻さない方にも変更のある行があります（詳細を参照）。片方だけを戻すと、例えば記事のタイトルは昔に戻り、カスタムフィールドは今のまま残ります。%s をまとめて戻しますか？"
 
-#: includes/class-admin.php:985
+#: includes/class-admin.php:983
 msgid "Preview restoring them together"
 msgstr "まとめて戻す下見"
 
 #. translators: %s: reason from HeimDB
-#: includes/class-admin.php:1349
+#: includes/class-admin.php:1347
 #, php-format
 msgid "Only the parent value can be kept: %s."
 msgstr "親の値しか残せません: %s。"
@@ -1033,15 +1028,15 @@ msgid "%d conflict can keep only the parent value and is still unresolved. Resol
 msgid_plural "%d conflicts can keep only the parent value and are still unresolved. Resolve them to the parent."
 msgstr[0] "親の値しか残せない競合が %d 件、解決されないまま残っています。親の側に解決してください。"
 
-#: includes/class-admin.php:340
+#: includes/class-admin.php:338
 msgid "Some conflicts can keep only the parent value. Resolve them to the parent."
 msgstr "親の値しか残せない競合があります。親の側に解決してください。"
 
-#: includes/class-admin.php:592
+#: includes/class-admin.php:590
 msgid "Empty: 20 for a new user; an existing user keeps its password and max connections."
 msgstr "空なら、新しいユーザーは 20、既にいるユーザーはパスワードと同時接続の上限を変えません。"
 
-#: includes/class-admin.php:600
+#: includes/class-admin.php:598
 msgid "This site runs on this branch, so it cannot be deleted from here. Delete it from the production site or with wp-cli there."
 msgstr "このサイトはこのブランチで動いているので、ここからは消せません。本番のサイトか、そこの wp-cli から消してください。"
 
@@ -1062,68 +1057,64 @@ msgid "%s is the user this site or this plugin connects with. Choose another use
 msgstr "%s は、このサイトかこのプラグインがつなぐユーザーです。ブランチのサイトには別のユーザーを選んでください。"
 
 #. translators: %s: time from HeimDB
-#: includes/class-admin.php:748
+#: includes/class-admin.php:746
 #, php-format
 msgid "Cannot read the fork time \"%s\"."
 msgstr "分岐の時刻「%s」が読めません。"
 
-#: includes/class-admin.php:334
+#: includes/class-admin.php:332
 msgid "From a branch site, you can go back only to when the branch was created."
 msgstr "ブランチのサイトからは、ブランチを作った時刻までしか戻れません。"
 
-#: includes/class-admin.php:336
+#: includes/class-admin.php:334
 msgid "From a branch site, resolve the conflicts one row at a time."
 msgstr "ブランチのサイトからは、競合を 1 行ずつ解決してください。"
 
 #. translators: 1: database, 2: database user
-#: includes/class-admin.php:485
+#: includes/class-admin.php:483
 #, php-format
 msgid "Database %1$s · connected as the branch user %2$s"
 msgstr "データベース %1$s · ブランチのユーザー %2$s でつないでいます"
 
-#: includes/class-admin.php:534
+#: includes/class-admin.php:532
 msgid "An administrator merges from the production site. The resolutions recorded here are used by that merge, with who recorded them and when. If a value changes after you record a resolution, decide again."
 msgstr "マージは、管理者が本番のサイトから行います。ここで記録した解決は、記録した人と時刻とともに、そのマージで使われます。記録した後に値が変わったら、決め直してください。"
 
-#: includes/class-admin.php:830
+#: includes/class-admin.php:828
 msgid "Conflicting columns"
 msgstr "競合した列"
 
-#: includes/class-admin.php:834
+#: includes/class-admin.php:832
 msgid "Parent now"
 msgstr "今の親"
 
-#: includes/class-admin.php:793
+#: includes/class-admin.php:791
 msgid "This site connects as a branch user, which cannot read the parent. Of the parent, only the current values of the conflicting columns are shown."
 msgstr "このサイトはブランチのユーザーでつないでいて、親を読めません。親については、競合した列の今の値だけを出しています。"
 
-#: includes/class-admin.php:1082
+#: includes/class-admin.php:1080
 msgid "Changed by an administrator from the production site."
 msgstr "変えるのは、管理者が本番のサイトから行います。"
 
-#: includes/class-admin.php:1144
+#: includes/class-admin.php:1142
 msgid "The user has access to this branch only, so the merge and branch management are done from the production site."
 msgstr "このユーザーはこのブランチだけを使えるので、マージとブランチの管理は本番のサイトから行います。"
 
-#: includes/class-admin.php:1155
-msgid "On a staging site, keep connecting with the user of the branch, and start HeimDB (0.2.15 or later) with the flag below. The user needs the EXECUTE privilege on the branch database, which GRANT ALL includes."
-msgstr "ステージングのサイトは、ブランチのユーザーでつないだまま、HeimDB（0.2.15 以上）を次のフラグで起動してください。ユーザーには、ブランチのデータベースの EXECUTE 権限が要ります（GRANT ALL に含まれます）。"
-
-#: includes/class-admin.php:1156
+#: includes/class-admin.php:1154
 msgid "or the environment variable HEIMDB_BRANCH_PROCEDURES=1"
 msgstr "または環境変数 HEIMDB_BRANCH_PROCEDURES=1"
 
-#: includes/class-admin.php:1157
+#: includes/class-admin.php:1155
 msgid "The diff then also shows values changed on the parent (production). Do not use the flag if branches separate different tenants."
 msgstr "このとき差分には、親（本番）で変わった値も出ます。ブランチで別々のテナントを分けているなら、このフラグは使わないでください。"
 
 #. translators: 1: database user, 2: time
-#: includes/class-admin.php:1367
+#: includes/class-admin.php:1365
 #, php-format
 msgid "by %1$s, %2$s"
 msgstr "%1$s、%2$s"
 
-#: includes/class-admin.php:1374
+#: includes/class-admin.php:1372
 msgid "parent"
 msgstr "親"
 
@@ -1133,28 +1124,22 @@ msgstr "親"
 msgid "This site connects as a branch user, so it can use only its own branch %s."
 msgstr "このサイトはブランチのユーザーでつないでいるので、自分のブランチ %s だけを使えます。"
 
-#. translators: %s: database user
-#: includes/class-client.php:807
-#, php-format
-msgid "This site connects to HeimDB as %s, a user of this branch only. To see the diff, resolve conflicts and restore from this site, start HeimDB 0.2.15 or later with -branch-procedures. Merging and managing branches are done from the production site."
-msgstr "このサイトは、このブランチだけを使えるユーザー %s で HeimDB につないでいます。このサイトから差分を見て、競合を解決し、復元するには、HeimDB 0.2.15 以上を -branch-procedures で起動してください。マージとブランチの管理は、本番のサイトから行います。"
-
 #. translators: 1: parent, 2: row id such as ID=4
-#: includes/class-admin.php:803
+#: includes/class-admin.php:801
 #, php-format
 msgid "%1$s now (%2$s)"
 msgstr "今の %1$s（%2$s）"
 
-#: includes/class-admin.php:1221
+#: includes/class-admin.php:1219
 msgid "Undo restores the tables to just before the operation. Anything written to those tables after it is lost too. To undo later, restore to that time from Time travel."
 msgstr "取り消すと、その表を操作の直前の状態に戻します。操作の後にその表に書き込んだものも失われます。後から取り消すときは、タイムトラベルの画面で、操作の前の時刻に復元します。"
 
-#: includes/class-admin.php:787
+#: includes/class-admin.php:785
 msgid "This table has no primary key, so its rows are named by a hidden row ID that SQL cannot look up. Only the current values of the conflicting columns are shown."
 msgstr "この表には主キーがないので、行は SQL で引けない見えない行 ID で呼ばれます。競合した列の今の値だけを出します。"
 
-#: includes/class-admin.php:788
-#: includes/class-admin.php:1035
+#: includes/class-admin.php:786
+#: includes/class-admin.php:1033
 #: includes/class-client.php:609
 msgid "This table has no primary key, so its rows are named by a hidden row ID that SQL cannot look up. A single row cannot be shown."
 msgstr "この表には主キーがないので、行は SQL で引けない見えない行 ID で呼ばれます。1 行を出すことはできません。"
@@ -1190,53 +1175,47 @@ msgstr "取り込む前に、両側で WordPress のデータベースの更新�
 msgid "A table definition differs between the branch and the parent. Run the same plugin update (or ALTER TABLE) on the branch first."
 msgstr "ブランチと親で定義の違う表があります。先にブランチでも同じプラグインの更新（か ALTER TABLE）をしてください。"
 
-#: includes/class-admin.php:338
+#: includes/class-admin.php:336
 msgid "Rows added on both sides with the same ID can only take the parent. Pull in with the parent kept for conflicts."
 msgstr "両側で同じ ID で足された行は、親の側しか採れません。競合した列は親の値を採るにして取り込んでください。"
 
 #. translators: %s: parent
-#: includes/class-admin.php:555
+#: includes/class-admin.php:553
 #, php-format
 msgid "Pull in changes from %s"
 msgstr "%s の変更を取り込む"
 
-#. translators: %s: parent
 #: includes/class-admin.php:557
-#, php-format
-msgid "Brings the latest of %s into this branch in one commit, such as other branches merged while this one was in review. Changes on this branch that were not merged are kept. Comments and users are copied too; environment options (siteurl, home, ...) and tables excluded from merges are not. Files are not copied. Needs HeimDB 0.2.33 or later."
-msgstr "%s の最新（このブランチの検証中にマージされたほかのブランチなど）を、1 回のコミットでこのブランチに取り込みます。このブランチのまだマージしていない変更は残ります。コメントとユーザーも写し、環境ごとのオプション（siteurl、home など）とマージから外した表は写しません。ファイルは写しません。HeimDB 0.2.33 以降が要ります。"
-
-#: includes/class-admin.php:559
 msgid "Pulling in clears the resolutions recorded on this branch. Decide the conflicts again before merging."
 msgstr "取り込むと、このブランチで記録した解決は消えます。マージの前に、競合をもう一度決めてください。"
 
 #. translators: 1: parent, 2: branch
-#: includes/class-admin.php:562
+#: includes/class-admin.php:560
 #, php-format
 msgid "Pull in the changes of %1$s into %2$s?"
 msgstr "%1$s の変更を %2$s に取り込みますか？"
 
-#: includes/class-admin.php:564
+#: includes/class-admin.php:562
 msgid "When both sides changed the same column"
 msgstr "両側で同じ列を変えていたら"
 
-#: includes/class-admin.php:565
+#: includes/class-admin.php:563
 msgid "refuse (write nothing)"
 msgstr "拒否する（何も書かない）"
 
-#: includes/class-admin.php:566
+#: includes/class-admin.php:564
 msgid "keep the branch"
 msgstr "ブランチの値を残す"
 
-#: includes/class-admin.php:567
+#: includes/class-admin.php:565
 msgid "take the parent"
 msgstr "親の値を採る"
 
-#: includes/class-admin.php:571
+#: includes/class-admin.php:569
 msgid "Pull in"
 msgstr "取り込む"
 
-#: includes/class-admin.php:1518
+#: includes/class-admin.php:1516
 msgid "synced"
 msgstr "取り込んだ"
 
@@ -1257,22 +1236,39 @@ msgstr[0] "%2$s のインデックスを %1$s 個作り直しました。"
 msgid "%s has no indexes to rebuild."
 msgstr "%s には作り直すインデックスがありません。"
 
-#: includes/class-admin.php:332
-msgid "Rebuilding indexes needs HeimDB 0.2.39 or later."
-msgstr "インデックスの作り直しには、HeimDB 0.2.39 以降が要ります。"
-
-#: includes/class-admin.php:1121
+#: includes/class-admin.php:1119
 msgid "Rebuild old indexes"
 msgstr "古いインデックスの作り直し"
 
-#: includes/class-admin.php:1122
-msgid "Indexes on DECIMAL, FLOAT, DOUBLE, ENUM, SET and BIT columns made by HeimDB 0.2.40 or earlier have no entries and read the whole table each time (e.g. WooCommerce's wc_product_meta_lookup). Since HeimDB 0.2.42, main's are rebuilt in the background after start; rebuild branches and anything it skipped here. Writes to the branch wait while it runs. Needs HeimDB 0.2.39 or later."
-msgstr "HeimDB 0.2.40 以前で作った、DECIMAL、FLOAT、DOUBLE、ENUM、SET、BIT の列のインデックスは、エントリを持たず、引くたびに表の全件を読みます（WooCommerce の wc_product_meta_lookup など）。HeimDB 0.2.42 からは、main のものは起動の後に裏で作り直されます。ブランチと、裏の処理が飛ばしたものは、ここで作り直します。作り直す間、そのブランチへの書き込みは待たされます。HeimDB 0.2.39 以降が要ります。"
-
-#: includes/class-admin.php:1126
+#: includes/class-admin.php:1124
 msgid "Rebuild"
 msgstr "作り直す"
 
-#: includes/class-admin.php:1542
+#: includes/class-admin.php:1540
 msgid "Index"
 msgstr "インデックス"
+
+#. Plugin URI of the plugin
+#: heimdb.php
+msgid "https://github.com/tsukinowasha/heimdb-plugin"
+msgstr "https://github.com/tsukinowasha/heimdb-plugin"
+
+#. translators: %s: parent
+#: includes/class-admin.php:555
+#, php-format
+msgid "Brings the latest of %s into this branch in one commit, such as other branches merged while this one was in review. Changes on this branch that were not merged are kept. Comments and users are copied too; environment options (siteurl, home, ...) and tables excluded from merges are not. Files are not copied."
+msgstr "%s の最新（このブランチの検証中にマージされたほかのブランチなど）を、1 回のコミットでこのブランチに取り込みます。このブランチのまだマージしていない変更は残ります。コメントとユーザーも写し、環境ごとのオプション（siteurl、home など）とマージから外した表は写しません。ファイルは写しません。"
+
+#: includes/class-admin.php:1120
+msgid "Indexes on DECIMAL, FLOAT, DOUBLE, ENUM, SET and BIT columns made by older HeimDB versions have no entries and read the whole table each time (e.g. WooCommerce's wc_product_meta_lookup). HeimDB rebuilds main's in the background after it starts; rebuild branches and anything it skipped here. Writes to the branch wait while it runs."
+msgstr "古い HeimDB で作った、DECIMAL、FLOAT、DOUBLE、ENUM、SET、BIT の列のインデックスは、エントリを持たず、引くたびに表の全件を読みます（WooCommerce の wc_product_meta_lookup など）。main のものは HeimDB が起動の後に裏で作り直します。ブランチと、裏の処理が飛ばしたものは、ここで作り直します。作り直す間、そのブランチへの書き込みは待たされます。"
+
+#: includes/class-admin.php:1153
+msgid "On a staging site, keep connecting with the user of the branch, and start HeimDB with the flag below. The user needs the EXECUTE privilege on the branch database, which GRANT ALL includes."
+msgstr "ステージングのサイトは、ブランチのユーザーでつないだまま、HeimDB を次のフラグで起動してください。ユーザーには、ブランチのデータベースの EXECUTE 権限が要ります（GRANT ALL に含まれます）。"
+
+#. translators: %s: database user
+#: includes/class-client.php:807
+#, php-format
+msgid "This site connects to HeimDB as %s, a user of this branch only. To see the diff, resolve conflicts and restore from this site, start HeimDB with -branch-procedures. Merging and managing branches are done from the production site."
+msgstr "このサイトは、このブランチだけを使えるユーザー %s で HeimDB につないでいます。このサイトから差分を見て、競合を解決し、復元するには、HeimDB を -branch-procedures で起動してください。マージとブランチの管理は、本番のサイトから行います。"

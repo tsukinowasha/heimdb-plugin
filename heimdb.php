@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       HeimDB
- * Plugin URI:        https://github.com/tsukinowasha/heimdb
+ * Plugin URI:        https://github.com/tsukinowasha/heimdb-plugin
  * Description:       Branches, diffs, conflict resolution, merges, time travel and restores of HeimDB, from wp-admin and wp-cli.
  * Version:           0.3.1
  * Requires at least: 6.0
