@@ -22,7 +22,7 @@ x-db: &db
 
 services:
   db:
-    image: tsukinowa/heimdb:${HEIMDB_VERSION:-0.3.0}
+    image: tsukinowa/heimdb:${HEIMDB_VERSION:-0.3.1}
     environment:
       HEIMDB_ROOT_PASSWORD: root-secret
       HEIMDB_SITE_PASSWORD: site-secret

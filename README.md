@@ -133,9 +133,9 @@ docker run --rm -v "$PWD:/app:ro" wordpress:cli-php8.4 sh /app/tests/i18n-check.
 
 ステージングのサイト（http://localhost:8091）は、ブランチ staging にユーザー staging でつなぐ（`dev/wp heimdb branch create staging`、`dev/wp heimdb branch grant staging staging --password=staging-secret` の後に `docker compose -f dev/compose.yaml --profile staging up -d`）。開発環境の HeimDB は `HEIMDB_BRANCH_PROCEDURES=1` で動く。
 
-開発環境の HeimDB は既定で 0.3.0（データ形式がバージョン 8 なので、0.2.40 以前で作ったボリュームは開くと上がり、古いバージョンでは開けなくなる）。ほかのバージョンは `HEIMDB_VERSION=0.2.12 docker compose -f dev/compose.yaml up -d` で立て、`tests/e2e.sh` も同じ `HEIMDB_VERSION` で流す（そのバージョンにない機能の確かめは飛ばす）。
+開発環境の HeimDB は既定で 0.3.1（データ形式がバージョン 8 なので、0.2.40 以前で作ったボリュームは開くと上がり、古いバージョンでは開けなくなる）。ほかのバージョンは `HEIMDB_VERSION=0.2.12 docker compose -f dev/compose.yaml up -d` で立て、`tests/e2e.sh` も同じ `HEIMDB_VERSION` で流す（そのバージョンにない機能の確かめは飛ばす）。
 
-GitHub Actions（`.github/workflows/ci.yml`）は、push と pull request で、この 3 つ（単体テストは PHP 8.2、8.4、8.5 で、E2E は HeimDB 0.2.12、0.2.14、0.2.15、0.2.16、0.2.24、0.2.33、0.3.0 で）を流す。
+GitHub Actions（`.github/workflows/ci.yml`）は、push と pull request で、この 3 つ（単体テストは PHP 8.2、8.4、8.5 で、E2E は HeimDB 0.2.12、0.2.14、0.2.15、0.2.16、0.2.24、0.2.33、0.3.0、0.3.1 で）を流す。
 
 翻訳（日本語）は `languages/` にある。`heimdb-ja.po` が元で、`.mo` と `.l10n.php`（WordPress 6.5 から）はそこから作る。HeimDB の結果の語（`changed`、`restore rows` などの状態）は画面で訳すが、`detail` の説明文は HeimDB の原文のまま出す。文言を変えたら、次で作り直す。
 
@@ -148,4 +148,4 @@ docker compose -f dev/compose.yaml run --rm -T -v "$PWD/languages:/out" --entryp
   cd /out && wp i18n make-mo heimdb-ja.po . && wp i18n make-php heimdb-ja.po .'
 ```
 
-要件: WordPress 6.0 以上、PHP 8.2 以上（8.4 以上を勧める。開発環境と E2E は 8.4）。HeimDB 0.2.12、0.2.14、0.2.15、0.2.16、0.2.24、0.2.33、0.3.0 で確かめた（0.2.12 でも動く。親の側でしか解決できない競合の扱いは 0.2.13 から、組の片方だけの復元の警告は 0.2.14 から、ステージングのサイトからの差分、解決、復元と、解決を記録した人の表示は 0.2.15 から。ブロックテーマのサイトで両側に自動で作られるナビゲーションのような、中身も同じ重複の投稿は、0.2.16 から競合にならず skip になる。複数列の主キー（0.2.19 から）と主キーのない表（0.2.20 から）の差分も扱う。親の変更の取り込みは 0.2.33 から、古いインデックスの作り直しは 0.2.39 から）。
+要件: WordPress 6.0 以上、PHP 8.2 以上（8.4 以上を勧める。開発環境と E2E は 8.4）。HeimDB 0.2.12、0.2.14、0.2.15、0.2.16、0.2.24、0.2.33、0.3.0、0.3.1 で確かめた（0.2.12 でも動く。親の側でしか解決できない競合の扱いは 0.2.13 から、組の片方だけの復元の警告は 0.2.14 から、ステージングのサイトからの差分、解決、復元と、解決を記録した人の表示は 0.2.15 から。ブロックテーマのサイトで両側に自動で作られるナビゲーションのような、中身も同じ重複の投稿は、0.2.16 から競合にならず skip になる。複数列の主キー（0.2.19 から）と主キーのない表（0.2.20 から）の差分も扱う。親の変更の取り込みは 0.2.33 から、古いインデックスの作り直しは 0.2.39 から。0.3.1 から、バックアップの間も読むのは待たず、HeimDB の `-backup-dir` を `/data` の中（`/data/backups`）に置けば、バックアップはファイルをハードリンクするのですぐ終わる）。
