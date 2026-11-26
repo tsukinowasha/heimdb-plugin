@@ -314,6 +314,7 @@ class Admin {
 			'parent_changed'       => __( 'The parent changed during the merge. Try again.', 'heimdb' ),
 			'read_only_replica'    => __( 'This HeimDB is a read-only replica. Connect to the primary.', 'heimdb' ),
 			'core_table'           => __( 'WordPress core tables cannot be excluded from merges.', 'heimdb' ),
+			'branches_exist'       => __( 'Merge or give up the branches and delete them, remove the pattern, then create the branches again.', 'heimdb' ),
 		);
 		$message = $e->getMessage();
 		// 取り込み（heimdb_branch_sync）を拒否するときは、同じ語でも直し方が違う。
@@ -552,7 +553,7 @@ class Admin {
 		/* translators: %s: parent */
 		echo '<h2>' . esc_html( sprintf( __( 'Pull in changes from %s', 'heimdb' ), $b['parent'] ) ) . '</h2>';
 		/* translators: %s: parent */
-		echo '<p class="description">' . esc_html( sprintf( __( 'Brings the latest of %s into this branch in one commit, such as other branches merged while this one was in review. Changes on this branch that were not merged are kept. Comments and users are copied too; environment options (siteurl, home, ...) and tables excluded from merges are not. Files are not copied.', 'heimdb' ), $b['parent'] ) ) . '</p>';
+		echo '<p class="description">' . esc_html( sprintf( __( 'Brings the latest of %s into this branch in one commit, such as other branches merged while this one was in review. Changes on this branch that were not merged are kept. Comments, users, environment options (siteurl, home, ...), tables excluded from merges and files are not copied; to get the comments and users, recreate the branch (HeimDB 0.3.1 and earlier copy comments and users).', 'heimdb' ), $b['parent'] ) ) . '</p>';
 		if ( $resolved ) {
 			echo '<p class="heimdb-warn">' . esc_html__( 'Pulling in clears the resolutions recorded on this branch. Decide the conflicts again before merging.', 'heimdb' ) . '</p>';
 		}
@@ -1095,7 +1096,7 @@ class Admin {
 
 		// マージから外す表
 		echo '<div class="heimdb-box"><h2>' . esc_html__( 'Tables excluded from merges', 'heimdb' ) . '</h2>';
-		echo '<p class="description">' . esc_html__( 'Rebuildable tables such as search indexes (e.g. wp_yoast_%). Merges leave them as they are on the parent.', 'heimdb' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Rebuildable tables such as search indexes (e.g. wp_yoast_%). Merges leave them as they are on the parent. A pattern can be removed only when there are no branches (HeimDB 0.3.1 and earlier do not refuse it, but a later merge of a remaining branch can write old values over the parent).', 'heimdb' ) . '</p>';
 		$excludes = $client->merge_excludes();
 		if ( $excludes ) {
 			echo '<ul>';
@@ -1496,6 +1497,7 @@ class Admin {
 			'schema differs'    => 'conflict',
 			'excluded'          => 'muted',
 			'not excluded'      => 'warning',
+			'not synced'        => 'muted',
 			'unchanged'         => 'muted',
 			'not restored'      => 'warning',
 			'drop'              => 'delete',
@@ -1520,6 +1522,7 @@ class Admin {
 			'schema differs'                 => __( 'schema differs', 'heimdb' ),
 			'excluded'                       => __( 'excluded', 'heimdb' ),
 			'not excluded'                   => __( 'not excluded', 'heimdb' ),
+			'not synced'                     => __( 'not synced', 'heimdb' ),
 			'unchanged'                      => __( 'unchanged', 'heimdb' ),
 			'not restored'                   => __( 'not restored', 'heimdb' ),
 			'drop'                           => __( 'drop table', 'heimdb' ),

@@ -100,6 +100,10 @@ wp heimdb rebuild-indexes [<branch>]         # エントリのない古いイン
 
 どれも `--format=json` などが使える（表を出すもの）。HeimDB のエラーは、番号を付けて終了コード 1 で返す（`[51004]` など）。詳しくは `wp help heimdb <command>`。
 
+`sync` は、コメントとユーザーを写さない（親で変わっていれば、結果にその表が `not synced` として出る）。要るなら、ブランチの変更をマージするかあきらめて、ブランチを作り直す。HeimDB 0.3.1 以前は写す。
+
+`exclude remove` は、ブランチがある間は拒否される（`[51011]`）。ブランチをマージするかあきらめて消し、パターンを消してから、ブランチを作り直す。HeimDB 0.3.1 以前は拒否しないが、マージか取り込みをしたことのあるブランチを後でマージすると、親を古い値で上書きすることがある。そうしてパターンを消したなら、そのブランチはマージの前に作り直す。
+
 `backup` は HeimDB の `-backup-dir` の下に書く。`-backup-dir` を `-data` の中（Docker なら `/data/backups`）に置くと、バックアップはファイルをハードリンクするのですぐ終わる（HeimDB 0.3.1 から）。
 
 `rebuild-indexes` は、古い HeimDB で作った、エントリのない DECIMAL、FLOAT、DOUBLE、ENUM、SET、BIT の列のインデックス（WooCommerce の `wc_product_meta_lookup` の `min_max_price` など）を作り直し、作り直したものを出す。そういうインデックスは引くたびに表の全件を読む。main のものは HeimDB が起動の後に裏で作り直すので、ふつうはブランチと、裏の処理が飛ばしたもの（一意のインデックスの重複など。`1062` で止まる）に使う。作り直す間は、そのブランチへの書き込みが待つ。
@@ -148,9 +152,9 @@ docker run --rm -v "$PWD:/app:ro" wordpress:cli-php8.4 sh /app/tests/i18n-check.
 
 ステージングのサイト（http://localhost:8091）は、ブランチ staging にユーザー staging でつなぐ（`dev/wp heimdb branch create staging`、`dev/wp heimdb branch grant staging staging --password=staging-secret` の後に `docker compose -f dev/compose.yaml --profile staging up -d`）。開発環境の HeimDB は `HEIMDB_BRANCH_PROCEDURES=1` で動く。
 
-開発環境の HeimDB は既定で 0.3.1。ほかのバージョンは `HEIMDB_VERSION=0.3.0 docker compose -f dev/compose.yaml up -d` で立て、`tests/e2e.sh` も同じ `HEIMDB_VERSION` で流す。
+開発環境の HeimDB は既定で 0.3.2。ほかのバージョンは `HEIMDB_VERSION=0.3.0 docker compose -f dev/compose.yaml up -d` で立て、`tests/e2e.sh` も同じ `HEIMDB_VERSION` で流す（そのバージョンにない機能の確かめは飛ばす）。
 
-GitHub Actions（`.github/workflows/ci.yml`）は、push と pull request で、この 3 つ（単体テストは PHP 8.2、8.4、8.5 で、E2E は HeimDB 0.3.0、0.3.1 で）を流す。
+GitHub Actions（`.github/workflows/ci.yml`）は、push と pull request で、この 3 つ（単体テストは PHP 8.2、8.4、8.5 で、E2E は HeimDB 0.3.0、0.3.1、0.3.2 で）を流す。
 
 翻訳（日本語）は `languages/` にある。`heimdb-ja.po` が元で、`.mo` と `.l10n.php`（WordPress 6.5 から）はそこから作る。HeimDB の結果の語（`changed`、`restore rows` などの状態）は画面で訳すが、`detail` の説明文は HeimDB の原文のまま出す。文言を変えたら、次で作り直す。
 

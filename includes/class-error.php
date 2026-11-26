@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * HeimDB が返したエラー、またはつなげなかったこと。
  *
- * マージ、取り込み、差分、解決の記録、除外の追加を拒否するときは、HeimDB はエラー番号（51001〜）と理由の語
+ * マージ、取り込み、差分、解決の記録、除外の追加と取り消しを拒否するときは、HeimDB はエラー番号（51001〜）と理由の語
  * （`HeimDB: merge refused (<語>): ...`。取り込みは `HeimDB: sync refused (<語>): ...`）を付ける。語と番号は変わらないので、分岐にはこちらを使う。
  */
 class Error extends \RuntimeException {
@@ -20,6 +20,7 @@ class Error extends \RuntimeException {
 	const READ_ONLY_REPLICA    = 51008;
 	const CORE_TABLE           = 51009;
 	const SCHEMA_DIFFERS       = 51010;
+	const BRANCHES_EXIST       = 51011;
 
 	/** @var string|null 理由の語（`unresolved_conflicts` など）。語のないエラーなら null。 */
 	public $reason;

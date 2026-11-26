@@ -100,6 +100,10 @@ wp heimdb rebuild-indexes [<branch>]         # rebuild old indexes that have no 
 
 Commands that print tables accept `--format=json` and the like. HeimDB errors are printed with their number (`[51004]`, ...) and exit with status 1. See `wp help heimdb <command>` for details.
 
+`sync` does not copy comments and users (the result lists those tables as `not synced` if they changed on the parent); to get them, merge or give up the branch's changes and recreate it. HeimDB 0.3.1 and earlier copy them.
+
+`exclude remove` is refused (`[51011]`) while there are branches: merge or give up the branches, delete them, remove the pattern, then create them again. HeimDB 0.3.1 and earlier do not refuse it, but a later merge of a branch that was merged or synced before can write old values over the parent. If a pattern was removed that way, recreate the branch before merging it.
+
 `backup` writes under HeimDB's `-backup-dir`. With `-backup-dir` inside `-data` (`/data/backups` in Docker), a backup hard-links the files and finishes at once (since HeimDB 0.3.1).
 
 `rebuild-indexes` rebuilds indexes on DECIMAL, FLOAT, DOUBLE, ENUM, SET and BIT columns that older HeimDB versions made without entries (such as `min_max_price` of WooCommerce's `wc_product_meta_lookup`), and lists what it rebuilt. Such an index reads the whole table each time. HeimDB rebuilds main's in the background after it starts, so this is usually for branches and anything the background rebuild skipped (such as a unique index with duplicates, which stops with `1062`). Writes to the branch wait while it runs.
@@ -148,9 +152,9 @@ docker run --rm -v "$PWD:/app:ro" wordpress:cli-php8.4 sh /app/tests/i18n-check.
 
 The staging site (http://localhost:8091) connects to the branch staging as the user staging (run `dev/wp heimdb branch create staging` and `dev/wp heimdb branch grant staging staging --password=staging-secret`, then `docker compose -f dev/compose.yaml --profile staging up -d`). HeimDB in the dev environment runs with `HEIMDB_BRANCH_PROCEDURES=1`.
 
-The dev environment runs HeimDB 0.3.1 by default. For another version, start it with `HEIMDB_VERSION=0.3.0 docker compose -f dev/compose.yaml up -d` and run `tests/e2e.sh` with the same `HEIMDB_VERSION`.
+The dev environment runs HeimDB 0.3.2 by default. For another version, start it with `HEIMDB_VERSION=0.3.0 docker compose -f dev/compose.yaml up -d` and run `tests/e2e.sh` with the same `HEIMDB_VERSION` (checks for features that version lacks are skipped).
 
-GitHub Actions (`.github/workflows/ci.yml`) runs these three on push and pull request (unit tests on PHP 8.2, 8.4 and 8.5; E2E on HeimDB 0.3.0 and 0.3.1).
+GitHub Actions (`.github/workflows/ci.yml`) runs these three on push and pull request (unit tests on PHP 8.2, 8.4 and 8.5; E2E on HeimDB 0.3.0, 0.3.1 and 0.3.2).
 
 Translations (Japanese) are in `languages/`. `heimdb-ja.po` is the source; `.mo` and `.l10n.php` (WordPress 6.5 and later) are built from it. Words in HeimDB's results (statuses such as `changed` and `restore rows`) are translated on screen, but the `detail` text is shown as HeimDB returns it. After changing strings, rebuild them:
 

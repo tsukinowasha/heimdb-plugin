@@ -186,8 +186,9 @@ class CLI {
 	 * Pulls the parent's changes into a branch.
 	 *
 	 * Brings the latest of production into a branch under review, for example after other branches were merged.
-	 * Changes on the branch that were not merged are kept. Comments and users are copied too; environment options
-	 * (siteurl, home, ...) and tables excluded from merges are not. If both sides changed the same columns, the sync is
+	 * Changes on the branch that were not merged are kept. Comments, users, environment options (siteurl, home, ...) and
+	 * tables excluded from merges are not copied; to get the comments and users, recreate the branch (HeimDB 0.3.1 and
+	 * earlier copy comments and users). If both sides changed the same columns, the sync is
 	 * refused and nothing is written unless --side is given. Resolutions recorded on the branch are cleared. On success,
 	 * prints the command that undoes the sync.
 	 *
@@ -786,6 +787,9 @@ class CLI_Exclude {
 
 	/**
 	 * Removes a pattern (the tables are merged again).
+	 *
+	 * HeimDB refuses it (51011) while there are branches: merge or give up the branches and delete them first. HeimDB
+	 * 0.3.1 and earlier do not refuse it, but a later merge of a remaining branch can write old values over the parent.
 	 *
 	 * ## OPTIONS
 	 *

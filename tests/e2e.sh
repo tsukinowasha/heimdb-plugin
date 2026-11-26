@@ -12,7 +12,7 @@ trap 'echo "FAIL stopped at line $LINENO (exit $?): $BASH_COMMAND"' ERR
 cd "$(dirname "$0")/.."
 WP_URL=${WP_URL:-http://localhost:8090}
 BRANCH=e2e
-# HeimDB はバージョンを SQL で返さないので、compose に渡すバージョン（なければ compose の既定）を出す
+# HeimDB はバージョンを SQL で返さないので、compose に渡すバージョン（なければ compose の既定）で、バージョンごとの確かめを選ぶ
 HEIMDB_VERSION=${HEIMDB_VERSION:-$(sed -n 's/.*HEIMDB_VERSION:-\([0-9.]*\)}.*/\1/p' dev/compose.yaml)}
 failures=0
 
@@ -24,6 +24,7 @@ fail() { echo "FAIL $1"; failures=$((failures + 1)); }
 expect() { # expect <name> <got> <want>
 	if [ "$2" = "$3" ]; then pass "$1"; else fail "$1 (got '$2', want '$3')"; fi
 }
+version_at_least() { php -r 'exit(version_compare($argv[1], $argv[2], ">=") ? 0 : 1);' "$HEIMDB_VERSION" "$1"; }
 
 jar=$(mktemp)
 trap 'rm -f "$jar"' EXIT
@@ -193,10 +194,18 @@ if wp_branch heimdb branch delete "$BRANCH" --yes; then fail "a branch site cann
 wp heimdb branch limit "$BRANCH" 2G 0 >/dev/null
 expect "branch limit alone" "$(wp heimdb branch list --format=json | php -r '$b = array_column(json_decode(stream_get_contents(STDIN), true), null, "branch"); echo $b["e2e"]["max_size_bytes"], "/", $b["e2e"]["max_execution_ms"];')" "2147483648/"
 
-wp heimdb exclude add 'wp_e2e_%' >/dev/null
-expect "exclude add" "$(wp heimdb exclude list | grep -cx 'wp_e2e_%')" 1
-wp heimdb exclude remove 'wp_e2e_%' >/dev/null
-expect "exclude remove" "$(wp heimdb exclude list | grep -cx 'wp_e2e_%' || true)" 0
+# 消すのは、ブランチを消した後（最後）。下で作る表（wp_e2e_*）には当たらないパターンにする
+wp heimdb exclude add 'wp_e2ex_%' >/dev/null
+expect "exclude add" "$(wp heimdb exclude list | grep -cx 'wp_e2ex_%')" 1
+# HeimDB 0.3.2 から: ブランチがあれば消せない
+if version_at_least 0.3.2; then
+	out=$(dev/wp heimdb exclude remove 'wp_e2ex_%' 2>&1 || true)
+	case "$out" in *branches_exist*51011*) pass "exclude remove with a branch is refused (51011)" ;; *) fail "exclude remove with a branch is refused: $out" ;; esac
+	nonce=$(form_field exclude_remove _wpnonce <<<"$(curl_admin "page=heimdb-status")")
+	admin_post -d op=exclude_remove -d "_wpnonce=$nonce" --data-urlencode 'pattern=wp_e2ex_%' --data-urlencode "redirect_to=$WP_URL/wp-admin/admin.php?page=heimdb-status" >/dev/null
+	html=$(curl_admin "page=heimdb-status")
+	if grep -q 'Merge or give up the branches\|マージするか、あきらめて' <<<"$html"; then pass "admin explains that branches exist"; else fail "admin explains that branches exist"; fi
+fi
 
 case "$(wp heimdb gc --yes)" in *"Success: Boundary "*"versions."*) pass "gc" ;; *) fail "gc" ;; esac
 # 開発環境の HeimDB は -backup-dir なしで動くので、バックアップは HeimDB のエラーとして返る
@@ -326,7 +335,13 @@ admin_post -d op=sync -d "_wpnonce=$nonce" -d "branch=$SB" -d side= --data-urlen
 html=$(curl_admin "page=heimdb&branch=$SB")
 if grep -q 'Pulled the changes of main\|main の変更を' <<<"$html"; then pass "admin sync notice"; else fail "admin sync notice"; fi
 expect "sync brings the parent's post" "$(wp_sync post get "$main_post" --field=post_title)" "E2E sync from main"
-expect "sync brings the parent's comment" "$(wp_sync comment list --post_id="$main_post" --field=comment_content)" "E2E sync comment"
+# HeimDB 0.3.2 から: コメントとユーザーは写さない
+if version_at_least 0.3.2; then
+	expect "sync leaves out the parent's comment" "$(wp_sync comment list --post_id="$main_post" --field=comment_content)" ""
+	if grep -q 'recreate the branch to get them' <<<"$html"; then pass "admin sync shows what was not synced"; else fail "admin sync shows what was not synced"; fi
+else
+	expect "sync brings the parent's comment" "$(wp_sync comment list --post_id="$main_post" --field=comment_content)" "E2E sync comment"
+fi
 expect "sync brings the parent's option" "$(wp_sync option get blogdescription)" "E2E sync tagline"
 expect "sync keeps the branch's change" "$(wp_sync post get "$kept" --field=post_title)" "E2E sync branch change"
 # ブランチの変更は kept の更新だけ（そのリビジョンは skip）
@@ -359,6 +374,14 @@ html=$(curl_admin "page=heimdb-status")
 if grep -q "$BRANCH has no indexes to rebuild\|$BRANCH には作り直すインデックスがありません" <<<"$html"; then pass "admin rebuild indexes notice"; else fail "admin rebuild indexes notice"; fi
 
 wp heimdb branch delete "$BRANCH" --yes >/dev/null
+
+# 開発環境にほかのブランチ（staging など）があれば、HeimDB 0.3.2 からは消せないので飛ばす
+if ! version_at_least 0.3.2 || [ "$(wp heimdb branch list --format=ids)" = main ]; then
+	wp heimdb exclude remove 'wp_e2ex_%' >/dev/null
+	expect "exclude remove" "$(wp heimdb exclude list | grep -cx 'wp_e2ex_%' || true)" 0
+else
+	echo "skip exclude remove (other branches exist; the pattern wp_e2ex_% is left)"
+fi
 
 echo
 if [ "$failures" -gt 0 ]; then
